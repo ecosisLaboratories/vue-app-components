@@ -1,26 +1,39 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld />
-</template>
+<script setup>
+import { computed } from 'vue'
+import { RouterView } from 'vue-router'
+import { useMainStore } from '@/stores/main.js'
+import { useLayoutStore } from '@/stores/layout.js'
+import menu from '@/menu.js'
+import NavBar from '@/components/NavBar.vue'
+import AsideMenu from '@/components/AsideMenu.vue'
+import FooterBar from '@/components/FooterBar.vue'
+import OverlayLayer from '@/components/OverlayLayer.vue'
 
-<script>
-import HelloWorld from "./components/helloworld/HelloWorld.vue";
+const mainStore = useMainStore()
 
-export default {
-  name: "App",
-  components: {
-    HelloWorld
-  }
-};
+mainStore.setUser({
+  name: 'John Doe',
+  email: 'john@example.com',
+  avatar: 'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93'
+})
+
+const layoutStore = useLayoutStore()
+
+const isAsideLgActive = computed(() => layoutStore.isAsideLgActive)
+
+const overlayClick = () => {
+  layoutStore.asideLgToggle(false)
+}
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <NavBar />
+  <AsideMenu :menu="menu" />
+  <RouterView />
+  <FooterBar />
+  <OverlayLayer
+    v-show="isAsideLgActive"
+    z-index="z-30"
+    @overlay-click="overlayClick"
+  />
+</template>
