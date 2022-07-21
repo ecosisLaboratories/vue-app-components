@@ -8,6 +8,7 @@ export const useLayoutStore = defineStore('layout', {
     /* Aside */
     isAsideMobileExpanded: false,
     isAsideLgActive: false,
+    isNavOpen: false,
   }),
   actions: {
     asideMobileToggle (payload = null) {
@@ -22,6 +23,10 @@ export const useLayoutStore = defineStore('layout', {
 
     asideLgToggle (payload = null) {
       this.isAsideLgActive = payload !== null ? payload : !this.isAsideLgActive
+    },
+
+    toggleNav (payload = null) {
+      this.isNavOpen = !this.isNavOpen
     },
 
     fullScreenToggle (payload) {

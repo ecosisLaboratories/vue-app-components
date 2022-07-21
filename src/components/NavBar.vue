@@ -49,12 +49,12 @@ const menuToggleMobileIcon = computed(() => isAsideMobileExpanded.value ? mdiBac
 
 const menuToggleMobile = () => layoutStore.asideMobileToggle()
 
-const isMenuNavBarActive = ref(false)
+const isMenuNavBarActive = computed(() => layoutStore.isNavOpen)
 
 const menuNavBarToggleIcon = computed(() => isMenuNavBarActive.value ? mdiClose : mdiDotsVertical)
 
 const menuNavBarToggle = () => {
-  isMenuNavBarActive.value = !isMenuNavBarActive.value
+  layoutStore.toggleNav()
 }
 
 const menuOpenLg = () => {
@@ -112,84 +112,32 @@ const logout = () => {
       <div
         class="max-h-screen-menu overflow-y-auto lg:overflow-visible lg:flex lg:items-stretch lg:justify-end lg:ml-auto"
       >
-        <!-- <div class="hidden lg:flex items-center">
-          <a
-            class="inline-flex items-center justify-center lg:mr-3 bg-blue-300 hover:bg-blue-400 transition-colors py-1 px-4 text-blue-700 hover:text-blue-800 text-sm rounded-full"
-            target="_blank"
-            href="https://tailwind-vue.justboil.me/"
-          >
-            <span class="mr-1">Check premium</span>
-            <BaseIcon
-              :path="mdiOpenInNew"
-              w="w-4"
-              h="h-4"
-            />
-          </a>
-        </div> -->
-        <!-- <NavBarItem
-          class="lg:hidden"
-          target="_blank"
-          href="https://tailwind-vue.justboil.me/"
-        >
-          <NavBarItemLabel
-            :icon="mdiMonitorShimmer"
-            label="Premium version"
-          />
-        </NavBarItem> -->
-        <!-- <NavBarMenu has-divider>
-          <NavBarItemLabel
-            :icon="mdiMenu"
-            label="Sample menu"
-          />
-
-          <template #dropdown>
-            <NavBarItem>
-              <NavBarItemLabel
-                :icon="mdiClockOutline"
-                label="Item One"
-              />
-            </NavBarItem>
-            <NavBarItem>
-              <NavBarItemLabel
-                :icon="mdiCloud"
-                label="Item Two"
-              />
-            </NavBarItem>
-            <BaseDivider nav-bar />
-            <NavBarItem>
-              <NavBarItemLabel
-                :icon="mdiCrop"
-                label="Item Last"
-              />
-            </NavBarItem>
-          </template>
-        </NavBarMenu> -->
         <NavBarMenu has-divider>
           <NavBarItemLabel :label="userName">
             <UserAvatar class="w-6 h-6 mr-3 inline-flex" />
           </NavBarItemLabel>
 
           <template #dropdown>
-            <NavBarItem to="/profile">
+            <NavBarItem @click="menuNavBarToggle" to="/profile">
               <NavBarItemLabel
                 :icon="mdiAccount"
                 label="My Profile"
               />
             </NavBarItem>
-            <NavBarItem>
+            <NavBarItem @click="menuNavBarToggle">
               <NavBarItemLabel
                 :icon="mdiCogOutline"
                 label="Settings"
               />
             </NavBarItem>
-            <NavBarItem>
+            <NavBarItem @click="menuNavBarToggle">
               <NavBarItemLabel
                 :icon="mdiEmail"
                 label="Messages"
               />
             </NavBarItem>
             <BaseDivider nav-bar />
-            <NavBarItem>
+            <NavBarItem @click="menuNavBarToggle">
               <NavBarItemLabel
                 :icon="mdiLogout"
                 label="Log Out"

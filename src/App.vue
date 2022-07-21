@@ -26,6 +26,12 @@ const overlayClick = () => {
   layoutStore.asideLgToggle(false)
 }
 
+const toggleNav = () => {
+  if (layoutStore.isNavOpen) {
+    layoutStore.toggleNav(false)
+  }
+}
+
 const swipeRight = () => {
   layoutStore.asideMobileToggle(true)
 }
@@ -37,8 +43,10 @@ const swipeLeft = () => {
 
 <template>
   <section v-touch:swipe.right="swipeRight" v-touch:swipe.left="swipeLeft">
-    <NavBar/>
-    <AsideMenu :menu="menu" v-click-outside="swipeLeft"/>
+    <section v-click-outside="toggleNav">
+      <NavBar/>
+      <AsideMenu :menu="menu" v-click-outside="swipeLeft"/>
+    </section>
     <RouterView/>
     <FooterBar/>
     <OverlayLayer
