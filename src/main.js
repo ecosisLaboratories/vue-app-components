@@ -8,13 +8,21 @@ import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { darkModeKey, styleKey } from '@/config.js'
 
+import Vue3TouchEvents from "vue3-touch-events"
+import vClickOutside from "click-outside-vue3"
+
 import './css/main.css'
 
 /* Init Pinia */
 const pinia = createPinia()
 
 /* Create Vue app */
-createApp(App).use(router).use(pinia).mount('#app')
+createApp(App)
+  .use(router)
+  .use(pinia)
+  .use(Vue3TouchEvents)
+  .use(vClickOutside)
+  .mount('#app')
 
 /* Init Pinia stores */
 const mainStore = useMainStore(pinia)

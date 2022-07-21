@@ -20,20 +20,31 @@ mainStore.setUser({
 const layoutStore = useLayoutStore()
 
 const isAsideLgActive = computed(() => layoutStore.isAsideLgActive)
+const isAsideMobileExpanded = computed(() => layoutStore.isAsideMobileExpanded)
 
 const overlayClick = () => {
   layoutStore.asideLgToggle(false)
 }
+
+const swipeRight = () => {
+  layoutStore.asideMobileToggle(true)
+}
+
+const swipeLeft = () => {
+  layoutStore.asideMobileToggle(false)
+}
 </script>
 
 <template>
-  <NavBar />
-  <AsideMenu :menu="menu" />
-  <RouterView />
-  <FooterBar />
-  <OverlayLayer
-    v-show="isAsideLgActive"
-    z-index="z-30"
-    @overlay-click="overlayClick"
-  />
+  <section v-touch:swipe.right="swipeRight" v-touch:swipe.left="swipeLeft">
+    <NavBar/>
+    <AsideMenu :menu="menu" v-click-outside="swipeLeft"/>
+    <RouterView/>
+    <FooterBar/>
+    <OverlayLayer
+      v-show="isAsideLgActive"
+      z-index="z-30"
+      @overlay-click="overlayClick"
+    />
+  </section>
 </template>
