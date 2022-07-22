@@ -49,8 +49,8 @@ const emitter = inject('emitter')
 const isErrorExeption = ref(false)
 const errorMessage = ref('Something went wrong!')
 
-emitter.on('error', (e) => {
-  errorMessage.value = e
+emitter.on('error', (e) => { // TODO Facelift
+  errorMessage.value = e || 'Something went wrong!'
   isErrorExeption.value = true
 })
 
