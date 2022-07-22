@@ -1,7 +1,8 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { mdiAccount, mdiAsterisk } from '@mdi/js'
+import { useWeb3Store } from '@/stores/web3.js'
 import SectionFullScreen from '@/components/SectionFullScreen.vue'
 import CardBox from '@/components/CardBox.vue'
 import FormCheckRadioPicker from '@/components/FormCheckRadioPicker.vue'
@@ -11,16 +12,25 @@ import BaseDivider from '@/components/BaseDivider.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 
+const web3Store = useWeb3Store()
+
 const form = reactive({
-  login: 'john.doe',
-  pass: 'highly-secure-password-fYjUw-',
+  login: '',
   remember: ['remember']
 })
 
 const router = useRouter()
 
-const submit = () => {
-  router.push('/dashboard')
+// Setup Exception Handler
+const emitter = inject('emitter')
+
+const submit = async () => {
+  try {
+    await web3Store.authenticate()
+    router.push('/dashboard')
+  } catch (e) {
+    emitter.emit('error', e)
+  }
 }
 </script>
 
@@ -47,7 +57,7 @@ const submit = () => {
         />
       </FormField>
 
-      <FormField
+      <!-- <FormField
         label="Password"
         help="Please enter your password"
       >
@@ -58,7 +68,7 @@ const submit = () => {
           name="password"
           autocomplete="current-password"
         />
-      </FormField>
+      </FormField> -->
 
       <FormCheckRadioPicker
         v-model="form.remember"

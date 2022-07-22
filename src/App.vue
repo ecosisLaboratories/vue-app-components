@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, inject } from 'vue'
 import { RouterView } from 'vue-router'
 import { useMainStore } from '@/stores/main.js'
 import { useLayoutStore } from '@/stores/layout.js'
@@ -8,7 +8,9 @@ import NavBar from '@/components/NavBar.vue'
 import AsideMenu from '@/components/AsideMenu.vue'
 import FooterBar from '@/components/FooterBar.vue'
 import OverlayLayer from '@/components/OverlayLayer.vue'
+import CardBoxModal from '@/components/CardBoxModal.vue'
 
+// Setup Main
 const mainStore = useMainStore()
 
 mainStore.setUser({
@@ -17,14 +19,11 @@ mainStore.setUser({
   avatar: 'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93'
 })
 
+// Setup Layout
 const layoutStore = useLayoutStore()
 
 const isAsideLgActive = computed(() => layoutStore.isAsideLgActive)
 const isAsideMobileExpanded = computed(() => layoutStore.isAsideMobileExpanded)
-
-const overlayClick = () => {
-  layoutStore.asideLgToggle(false)
-}
 
 const toggleNav = () => {
   if (layoutStore.isNavOpen) {
@@ -39,9 +38,34 @@ const swipeRight = () => {
 const swipeLeft = () => {
   layoutStore.asideMobileToggle(false)
 }
+
+const overlayClick = () => {
+  layoutStore.asideLgToggle(false)
+}
+
+// Setup Exception Handler
+const emitter = inject('emitter')
+
+const isErrorExeption = ref(false)
+const errorMessage = ref('Something went wrong!')
+
+emitter.on('error', (e) => {
+  errorMessage.value = e
+  isErrorExeption.value = true
+})
+
+// const successMessage = ref('')
 </script>
 
 <template>
+  <CardBoxModal
+    v-model="isErrorExeption"
+    large-title="Error"
+    button="danger"
+    shake
+  >
+    <p>{{ errorMessage }}</p>
+  </CardBoxModal>
   <section v-touch:swipe.right="swipeRight" v-touch:swipe.left="swipeLeft">
     <section v-click-outside="toggleNav">
       <NavBar/>
