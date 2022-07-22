@@ -26,7 +26,7 @@ export const useLayoutStore = defineStore('layout', {
     },
 
     toggleNav (payload = null) {
-      this.isNavOpen = !this.isNavOpen
+      this.isNavOpen = payload !== null ? payload : !this.isNavOpen
     },
 
     fullScreenToggle (payload) {

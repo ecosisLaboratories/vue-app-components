@@ -62,7 +62,7 @@ const menuOpenLg = () => {
 }
 
 const logout = () => {
-  //
+  // web3Store.disconnect()
 }
 </script>
 
@@ -118,26 +118,26 @@ const logout = () => {
           </NavBarItemLabel>
 
           <template #dropdown>
-            <NavBarItem @click="menuNavBarToggle" to="/profile">
+            <NavBarItem to="/profile">
               <NavBarItemLabel
                 :icon="mdiAccount"
                 label="My Profile"
               />
             </NavBarItem>
-            <NavBarItem @click="menuNavBarToggle">
+            <NavBarItem>
               <NavBarItemLabel
                 :icon="mdiCogOutline"
                 label="Settings"
               />
             </NavBarItem>
-            <NavBarItem @click="menuNavBarToggle">
+            <NavBarItem>
               <NavBarItemLabel
                 :icon="mdiEmail"
                 label="Messages"
               />
             </NavBarItem>
             <BaseDivider nav-bar />
-            <NavBarItem @click="menuNavBarToggle">
+            <NavBarItem>
               <NavBarItemLabel
                 :icon="mdiLogout"
                 label="Log Out"

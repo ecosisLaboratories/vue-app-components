@@ -10,7 +10,6 @@ import { darkModeKey, styleKey } from '@/config.js'
 
 import Vue3TouchEvents from "vue3-touch-events"
 import vClickOutside from "click-outside-vue3"
-
 import './css/main.css'
 
 /* Init Pinia */
@@ -42,12 +41,13 @@ if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dar
 }
 
 /* Default title tag */
-const defaultDocumentTitle = 'ecosis One Vue 3 Tailwind'
+const defaultDocumentTitle = 'ecosis One'
 
 /* Collapse mobile aside menu on route change */
 router.beforeEach(() => {
   layoutStore.asideMobileToggle(false)
   layoutStore.asideLgToggle(false)
+  layoutStore.toggleNav(false)
 })
 
 router.afterEach(to => {
