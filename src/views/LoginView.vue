@@ -18,7 +18,6 @@ const form = reactive({
   login: '',
   remember: ['remember']
 })
-
 const router = useRouter()
 
 // Setup Exception Handler
@@ -26,7 +25,7 @@ const emitter = inject('emitter')
 
 const submit = async () => {
   try {
-    await web3Store.authenticate()
+    await web3Store.authenticate(form.login)
     router.push('/dashboard')
   } catch (e) {
     emitter.emit('error', e)
