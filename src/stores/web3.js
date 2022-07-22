@@ -1,44 +1,41 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import Moralis from 'moralis'
 
-export const useMainStore = defineStore('main', {
+Moralis.start({
+  serverUrl: 'https://yzixmn7rbnkf.usemoralis.com:2053/server',
+  appId: 'gJuKDA01bw0r5Y7h84IS90bnMHUOr4j8lsLJGOlG'
+})
+
+// // sending 0.5 tokens with 18 decimals
+// const options = {
+//   type: "erc20",
+//   amount: Moralis.Units.Token("0.5", "18"),
+//   receiver: "asdfasdf",
+//   contractAddress: "afdsafdas",
+// };
+// let result = await Moralis.transfer(options);
+
+export const useWeb3Store = defineStore('web3', {
   state: () => ({
     /* User */
-    userName: null,
-    userEmail: null,
-    userAvatar: null,
-
-    /* Field focus with ctrl+k (to register only once) */
-    isFieldFocusRegistered: false,
-
-    /* Sample data (commonly used) */
-    clients: [],
-    history: []
+    user: null,
   }),
   actions: {
-    setUser (payload) {
-      if (payload.name) {
-        this.userName = payload.name
-      }
-      if (payload.email) {
-        this.userEmail = payload.email
-      }
-      if (payload.avatar) {
-        this.userAvatar = payload.avatar
+    async authenticate(payload) {
+      try {
+        this.user = await Moralis.authenticate({
+          provider: 'magicLink',
+          apiKey: 'pk_live_F30E7D6C198F44E5',
+          email: payload,
+          network: 'avalanche'
+        })
+      } catch (e) {
+        throw new Error(e.message)
       }
     },
-
-    fetch (sampleDataKey) {
-      axios
-        .get(`data-sources/${sampleDataKey}.json`)
-        .then(r => {
-          if (r.data && r.data.data) {
-            this[sampleDataKey] = r.data.data
-          }
-        })
-        .catch(error => {
-          alert(error.message)
-        })
+    async disconnect() {
+      //
     }
   }
 })
