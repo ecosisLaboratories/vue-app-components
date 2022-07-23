@@ -7,14 +7,35 @@ Moralis.start({
   appId: 'gJuKDA01bw0r5Y7h84IS90bnMHUOr4j8lsLJGOlG'
 })
 
-// // sending 0.5 tokens with 18 decimals
-// const options = {
-//   type: "erc20",
-//   amount: Moralis.Units.Token("0.5", "18"),
-//   receiver: "asdfasdf",
-//   contractAddress: "afdsafdas",
-// };
-// let result = await Moralis.transfer(options);
+const configAsset = (options) => {
+  if (options.decimals) {
+    return {
+      type: 'erc20',
+      amount: Moralis.Units.Token(options.amount, options.decimals),
+      receiver: options.receiver,
+      contractAddress: options.contractAddress,
+    }
+  }
+}
+
+const setConfig = (config) => {
+  if (!config) {
+    return undefined
+  }
+  if (config.type === 'walletconnect') {
+    return {
+      provider: 'walletconnect'
+    }
+  }
+  if (config.type === 'magiclink') {
+    return {
+      provider: 'magicLink',
+      apiKey: 'pk_live_F30E7D6C198F44E5',
+      email: config.data,
+      network: 'avalanche'
+    }
+  }
+}
 
 export const useWeb3Store = defineStore('web3', {
   state: () => ({
@@ -24,12 +45,14 @@ export const useWeb3Store = defineStore('web3', {
   actions: {
     async authenticate(payload) {
       try {
-        this.user = await Moralis.authenticate({
-          provider: 'magicLink',
-          apiKey: 'pk_live_F30E7D6C198F44E5',
-          email: payload,
-          network: 'avalanche'
-        })
+        this.user = await Moralis.authenticate(setConfig(payload))
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
+    async sendAsset(options) {
+      try {
+        return await Moralis.transfer(configAsset(options))
       } catch (e) {
         throw new Error(e.message)
       }
