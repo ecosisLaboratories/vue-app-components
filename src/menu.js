@@ -1,7 +1,12 @@
 import {
   mdiAccountCircle,
   mdiDesktopMac,
+  mdiBook,
   mdiGithub,
+  mdiDiscord,
+  mdiLinkedin,
+  mdiTwitter,
+  mdiAndroidMessages,
   mdiLock,
   mdiAlertCircle,
   mdiMonitorShimmer,
@@ -80,13 +85,43 @@ export default [
   'About',
   [
     {
-      href: 'https://tailwind-vue.justboil.me/',
-      label: 'Premium version',
+      href: 'https://ecosis.network/',
+      label: 'Homepage',
       icon: mdiMonitorShimmer,
       target: '_blank'
     },
     {
-      href: 'https://github.com/justboil/admin-one-vue-tailwind',
+      href: 'https://docs.ecosis.network/',
+      label: 'Documentation',
+      icon: mdiBook,
+      target: '_blank'
+    },
+    {
+      href: 'https://www.linkedin.com/company/ecosiss/',
+      label: 'LinkedIn',
+      icon: mdiLinkedin,
+      target: '_blank'
+    },
+    {
+      href: 'https://twitter.com/ecosisnetwork',
+      label: 'Twitter',
+      icon: mdiTwitter,
+      target: '_blank'
+    },
+    {
+      href: 'https://discord.gg/9xejeEcH3N',
+      label: 'Discord',
+      icon: mdiDiscord,
+      target: '_blank'
+    },
+    {
+      href: 'https://t.co/kCfN6RJKr5',
+      label: 'Telegram',
+      icon: mdiAndroidMessages,
+      target: '_blank'
+    },
+    {
+      href: 'https://github.com/AwesomeEcosystem',
       label: 'GitHub',
       icon: mdiGithub,
       target: '_blank'
