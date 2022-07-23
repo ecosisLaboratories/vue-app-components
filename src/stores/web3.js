@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import Moralis from 'moralis'
+import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '@/config'
 
 // Setup Moralis
 Moralis.start({
-  serverUrl: 'https://yzixmn7rbnkf.usemoralis.com:2053/server',
-  appId: 'gJuKDA01bw0r5Y7h84IS90bnMHUOr4j8lsLJGOlG'
+  serverUrl: MORALIS_API,
+  appId: MORALIS_SERVER_URL
 })
 
 let user = Moralis.User.current() || null
@@ -42,7 +43,7 @@ const setConfig = (config) => {
   if (config.type === 'magiclink') {
     return {
       provider: 'magicLink',
-      apiKey: 'pk_live_F30E7D6C198F44E5',
+      apiKey: MAGICLINK_API,
       email: config.data,
       network: 'avalanche'
     }
