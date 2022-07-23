@@ -75,6 +75,12 @@ export default [
       target: '_blank'
     },
     {
+      href: 'https://github.com/AwesomeEcosystem',
+      label: 'GitHub',
+      icon: mdiGithub,
+      target: '_blank'
+    },
+    {
       href: 'https://www.linkedin.com/company/ecosiss/',
       label: 'LinkedIn',
       icon: mdiLinkedin,
@@ -96,12 +102,6 @@ export default [
       href: 'https://t.co/kCfN6RJKr5',
       label: 'Telegram',
       icon: mdiAndroidMessages,
-      target: '_blank'
-    },
-    {
-      href: 'https://github.com/AwesomeEcosystem',
-      label: 'GitHub',
-      icon: mdiGithub,
       target: '_blank'
     }
   ]
