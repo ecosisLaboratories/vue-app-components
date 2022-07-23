@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Style from '@/views/StyleView.vue'
-import Home from '@/views/HomeView.vue'
+import Style from '@/views/Style.vue'
+import Home from '@/views/Home.vue'
 
 const routes = [
   {
@@ -28,7 +28,7 @@ const routes = [
     },
     path: '/tables',
     name: 'tables',
-    component: () => import('@/views/TablesView.vue')
+    component: () => import('@/views/Tables.vue')
   },
   {
     meta: {
@@ -36,7 +36,7 @@ const routes = [
     },
     path: '/forms',
     name: 'forms',
-    component: () => import('@/views/FormsView.vue')
+    component: () => import('@/views/Forms.vue')
   },
   {
     meta: {
@@ -44,7 +44,7 @@ const routes = [
     },
     path: '/profile',
     name: 'profile',
-    component: () => import('@/views/ProfileView.vue')
+    component: () => import('@/views/Profile.vue')
   },
   {
     meta: {
@@ -52,7 +52,7 @@ const routes = [
     },
     path: '/ui',
     name: 'ui',
-    component: () => import('@/views/UiView.vue')
+    component: () => import('@/views/Ui.vue')
   },
   {
     meta: {
@@ -60,7 +60,7 @@ const routes = [
     },
     path: '/responsive',
     name: 'responsive',
-    component: () => import('@/views/ResponsiveView.vue')
+    component: () => import('@/views/Responsive.vue')
   },
   {
     meta: {
@@ -69,7 +69,7 @@ const routes = [
     },
     path: '/login',
     name: 'login',
-    component: () => import('@/views/LoginView.vue')
+    component: () => import('@/views/Login.vue')
   },
   {
     meta: {
@@ -78,7 +78,7 @@ const routes = [
     },
     path: '/error',
     name: 'error',
-    component: () => import('@/views/ErrorView.vue')
+    component: () => import('@/views/Error.vue')
   }
 ]
 
