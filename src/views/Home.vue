@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 import { useMainStore } from '@/stores/main'
+import { useWeb3Store } from '@/stores/web3'
 import {
   mdiAccountMultiple,
   mdiCartOutline,
@@ -18,7 +19,7 @@ import SectionTitleBar from '@/components/SectionTitleBar.vue'
 import SectionHeroBar from '@/components/SectionHeroBar.vue'
 import CardBoxWidget from '@/components/CardBoxWidget.vue'
 import CardBox from '@/components/CardBox.vue'
-import TableSampleClients from '@/components/TableSampleClients.vue'
+import TableTransactions from '@/components/TableTransactions.vue'
 import NotificationBar from '@/components/NotificationBar.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
@@ -33,15 +34,18 @@ const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData()
 }
 
-onMounted(() => {
-  fillChartData()
-})
-
 const mainStore = useMainStore()
+
+const web3Store = useWeb3Store()
 
 const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
 
 const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
+
+onMounted(async () => {
+  await web3Store.getTransactions()
+  fillChartData()
+})
 </script>
 
 <template>
@@ -147,19 +151,19 @@ const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
       title="Clients"
     />
 
-    <NotificationBar
+    <!-- <NotificationBar
       color="info"
       :icon="mdiMonitorCellphone"
     >
       <b>Responsive table.</b> Collapses on mobile
-    </NotificationBar>
+    </NotificationBar> -->
 
     <CardBox
       :icon="mdiMonitorCellphone"
-      title="Responsive table"
+      title="On-Chain Transactions"
       has-table
     >
-      <TableSampleClients />
+      <TableTransactions />
     </CardBox>
   </SectionMain>
 </template>
