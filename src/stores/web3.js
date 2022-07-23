@@ -18,6 +18,8 @@ const configAsset = (options) => {
   }
 }
 
+let user = Moralis.User.current() || null
+
 const setConfig = (config) => {
   if (!config) {
     return undefined
@@ -32,7 +34,7 @@ const setConfig = (config) => {
         "trust",
         "imtoken",
         "pillar",
-      ] 
+      ]
     }
   }
   if (config.type === 'magiclink') {
@@ -48,7 +50,7 @@ const setConfig = (config) => {
 export const useWeb3Store = defineStore('web3', {
   state: () => ({
     /* User */
-    user: null,
+    user,
   }),
   actions: {
     async authenticate(payload) {
