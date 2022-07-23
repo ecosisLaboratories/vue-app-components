@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import Moralis from 'moralis'
-import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '@/config'
+import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '../config'
 
 // Setup Moralis
 Moralis.start({
-  serverUrl: MORALIS_API,
-  appId: MORALIS_SERVER_URL
+  appId: MORALIS_API,
+  serverUrl: MORALIS_SERVER_URL,
 })
 
 let user = Moralis.User.current() || null
