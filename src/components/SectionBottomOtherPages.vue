@@ -23,7 +23,7 @@ for (const routeIndex in routes) {
 
 <template>
   <SectionTitle last>
-    <h1 class="flex items-center justify-center flex-col md:flex-row text-2xl text-gray-500 dark:text-gray-400 mb-12">
+    <!-- <h1 class="flex items-center justify-center flex-col md:flex-row text-2xl text-gray-500 dark:text-gray-400 mb-12">
       <span class="md:mr-3">Please star this project on</span>
       <a
         href="https://github.com/justboil/admin-one-vue-tailwind"
@@ -63,6 +63,6 @@ for (const routeIndex in routes) {
         target="_blank"
         class="text-blue-600"
       >Premium version</a>
-    </h1>
+    </h1> -->
   </SectionTitle>
 </template>
