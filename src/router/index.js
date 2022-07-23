@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useWeb3Store } from '@/stores/web3'
 import Style from '@/views/Style.vue'
 import Home from '@/views/Home.vue'
 
@@ -88,6 +89,18 @@ const router = createRouter({
   scrollBehavior (to, from, savedPosition) {
     return savedPosition || { top: 0 }
   }
+})
+
+router.beforeEach(async (to) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/login'];
+    const authRequired = !publicPages.includes(to.path);
+    const auth = useWeb3Store();
+
+    if (authRequired && !auth.user) {
+        auth.returnUrl = to.fullPath;
+        return '/login';
+    }
 })
 
 export default router
