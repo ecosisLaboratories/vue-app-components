@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.4.95",
+    "@walletconnect/web3-provider": "^1.7.8",
     "@web3auth/web3auth": "^1.1.1",
     "axios": "^0.27.0",
     "chart.js": "^3.6.0",
