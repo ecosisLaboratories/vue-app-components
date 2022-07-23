@@ -6,6 +6,11 @@ import {
   mdiDiscord,
   mdiLinkedin,
   mdiTwitter,
+  mdiEarth,
+  mdiViewStream,
+  mdiAccount,
+  mdiAccountGroup,
+  mdiWallet,
   mdiAndroidMessages,
   mdiLock,
   mdiAlertCircle,
@@ -25,61 +30,34 @@ export default [
       to: '/dashboard',
       icon: mdiDesktopMac,
       label: 'Dashboard'
+    },
+    {
+      to: '/dashboard',
+      icon: mdiViewStream,
+      label: 'Feed'
+    },
+    {
+      to: '/dashboard',
+      icon: mdiEarth,
+      label: 'Explore'
     }
   ],
-  'Examples',
+  'User',
   [
     {
-      to: '/tables',
-      label: 'Tables',
-      icon: mdiTable
+      to: '/dashboard',
+      icon: mdiAccount,
+      label: 'Profile'
     },
     {
-      to: '/forms',
-      label: 'Forms',
-      icon: mdiSquareEditOutline
+      to: '/dashboard',
+      icon: mdiWallet,
+      label: 'Wallet'
     },
     {
-      to: '/ui',
-      label: 'UI',
-      icon: mdiTelevisionGuide
-    },
-    {
-      to: '/responsive',
-      label: 'Responsive',
-      icon: mdiResponsive
-    },
-    {
-      to: '/',
-      label: 'Styles',
-      icon: mdiPalette
-    },
-    {
-      to: '/profile',
-      label: 'Profile',
-      icon: mdiAccountCircle
-    },
-    {
-      to: '/login',
-      label: 'Login',
-      icon: mdiLock
-    },
-    {
-      to: '/error',
-      label: 'Error',
-      icon: mdiAlertCircle
-    },
-    {
-      label: 'Dropdown',
-      icon: mdiViewList,
-      menu: [
-        {
-          label: 'Item One'
-        },
-        {
-          label: 'Item Two'
-        }
-      ]
+      to: '/dashboard',
+      icon: mdiAccountGroup,
+      label: 'Organizations'
     }
   ],
   'About',
@@ -128,3 +106,59 @@ export default [
     }
   ]
 ]
+
+// 'Examples',
+// [
+//   {
+//     to: '/tables',
+//     label: 'Tables',
+//     icon: mdiTable
+//   },
+//   {
+//     to: '/forms',
+//     label: 'Forms',
+//     icon: mdiSquareEditOutline
+//   },
+//   {
+//     to: '/ui',
+//     label: 'UI',
+//     icon: mdiTelevisionGuide
+//   },
+//   {
+//     to: '/responsive',
+//     label: 'Responsive',
+//     icon: mdiResponsive
+//   },
+//   {
+//     to: '/',
+//     label: 'Styles',
+//     icon: mdiPalette
+//   },
+//   {
+//     to: '/profile',
+//     label: 'Profile',
+//     icon: mdiAccountCircle
+//   },
+//   {
+//     to: '/login',
+//     label: 'Login',
+//     icon: mdiLock
+//   },
+//   {
+//     to: '/error',
+//     label: 'Error',
+//     icon: mdiAlertCircle
+//   },
+  // {
+  //   label: 'Dropdown',
+  //   icon: mdiViewList,
+  //   menu: [
+  //     {
+  //       label: 'Item One'
+  //     },
+  //     {
+  //       label: 'Item Two'
+  //     }
+  //   ]
+  // }
+// ],
