@@ -24,7 +24,15 @@ const setConfig = (config) => {
   }
   if (config.type === 'walletconnect') {
     return {
-      provider: 'walletconnect'
+      provider: 'walletconnect',
+      mobileLinks: [
+        "rainbow",
+        "metamask",
+        "argent",
+        "trust",
+        "imtoken",
+        "pillar",
+      ] 
     }
   }
   if (config.type === 'magiclink') {

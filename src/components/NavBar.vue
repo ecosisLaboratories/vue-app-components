@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useMainStore } from '@/stores/main.js'
+import { useWeb3Store } from '@/stores/web3.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import {
@@ -31,7 +32,9 @@ import NavBarSearch from '@/components/NavBarSearch.vue'
 
 const mainStore = useMainStore()
 
-const userName = computed(() => mainStore.userName)
+const web3Store = useWeb3Store()
+
+const userName = computed(() => (web3Store.user) ? web3Store.user.id : '')
 
 const styleStore = useStyleStore()
 
