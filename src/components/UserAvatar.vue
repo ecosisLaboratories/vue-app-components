@@ -14,10 +14,10 @@ const props = defineProps({
 })
 
 const web3Store = useWeb3Store()
-console.log(web3Store.user.id);
+console.log(web3Store.id);
 const avatar = computed(() => web3Store.user.id
   ? `https://avatars.dicebear.com/api/jdenticon/${web3Store.user.id}.svg`
-  : web3Store.userAvatar)
+  : `https://avatars.dicebear.com/api/jdenticon/${web3Store.avatar}.svg`)
 </script>
 
 <template>
