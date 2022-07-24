@@ -67,7 +67,7 @@ const computedType = computed(() => {
   return null
 })
 
-const labelClass = computed(() => props.small && props.icon ? 'px-1' : 'px-2')
+const labelClass = computed(() => props.small && props.icon ? 'px-2' : 'px-4')
 
 const componentClass = computed(() => {
   const base = [
@@ -80,8 +80,8 @@ const componentClass = computed(() => {
     'transition-colors',
     'focus:ring',
     'duration-150',
-    'border',
-    'rounded',
+    // 'border',
+    'rounded-full',
     props.active ? 'ring ring-black dark:ring-white' : 'ring-blue-700',
     props.small ? 'p-1' : 'p-2',
     getButtonColor(props.color, props.outline, !props.disabled)
