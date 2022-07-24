@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useMainStore } from '@/stores/main'
+import { useWeb3Store } from '@/stores/web3'
 import { mdiCheckDecagram } from '@mdi/js'
 import BaseLevel from '@/components/BaseLevel.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
@@ -8,31 +8,23 @@ import CardBox from '@/components/CardBox.vue'
 import FormCheckRadioPicker from '@/components/FormCheckRadioPicker.vue'
 import PillTag from '@/components/PillTag.vue'
 
-const mainStore = useMainStore()
+const web3Store = useWeb3Store()
 
-const userName = computed(() => mainStore.userName)
+const id = computed(() => web3Store.user.id)
 
 const userSwitchVal = ref([])
 </script>
 
 <template>
   <CardBox rounded="">
-    <BaseLevel type="justify-around lg:justify-center">
-      <UserAvatar class="lg:mx-12" />
-      <div class="space-y-3 text-center md:text-left lg:mx-12">
-        <div class="flex justify-center md:block">
-          <FormCheckRadioPicker
-            v-model="userSwitchVal"
-            name="sample-switch"
-            type="switch"
-            :options="{ one: 'Notifications' }"
-          />
-        </div>
-        <h1 class="text-2xl">
-          Howdy, <b>{{ userName }}</b>!
+    <BaseLevel type="flex flex-col justify-center items-center">
+      <UserAvatar class="lg:mx-12 w-32 h-32 m-3 my-8 inline-flex" />
+      <div class="flex flex-col justify-center items-center space-y-3 text-center md:text-left lg:mx-12">
+        <h1 class="text-2xl pb-8">
+          <b>{{ id }}</b>
         </h1>
-        <p>Last login <b>12 mins ago</b> from <b>127.0.0.1</b></p>
-        <div class="flex justify-center md:block">
+        <!-- <p>Last login <b>12 mins ago</b> from <b>127.0.0.1</b></p> -->
+        <div class="w-full flex flex-col justify-center items-center">
           <PillTag
             text="Verified"
             type="info"
