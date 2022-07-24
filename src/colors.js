@@ -5,7 +5,7 @@ export const sectionBgError = `${sectionBgBase} from-pink-400 via-red-500 to-yel
 export const sectionBgErrorDark = `${sectionBgBase} from-pink-900 via-red-900 to-yellow-900`
 
 export const colorsBg = {
-  white: 'bg-gray-100 text-black',
+  white: 'bg-gray-100 dark:bg-gray-700 text-black dark:text-white',
   light: 'bg-white text-black',
   success: 'bg-gradient-to-tr from-emerald-500 to-emerald-700 text-white',
   danger: 'bg-gradient-to-tr from-red-500 to-red-700 text-white',

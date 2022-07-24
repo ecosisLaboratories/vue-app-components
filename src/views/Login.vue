@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, inject } from 'vue'
+import { reactive, ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { mdiAccount, mdiAsterisk } from '@mdi/js'
 import { useWeb3Store } from '@/stores/web3.js'
@@ -14,6 +14,8 @@ import BaseButtons from '@/components/BaseButtons.vue'
 
 const web3Store = useWeb3Store()
 
+let loading = ref(false)
+
 const form = reactive({
   login: '',
   password: '',
@@ -27,8 +29,10 @@ const emitter = inject('emitter')
 
 const submit = async (payload) => {
   try {
+    loading = true
     await web3Store.authenticate(payload)
     router.push('/dashboard')
+    loading = false
   } catch (e) {
     emitter.emit('error', e)
   }
@@ -43,7 +47,7 @@ const submit = async (payload) => {
       :class="cardClass"
       :rounded="cardRounded"
       form
-      @submit.prevent="submit"
+      @submit.prevent="submit({ type: 'magiclink', data: form.login })"
     >
       <FormField
         label="Login via Mail (Custodial)"
@@ -53,7 +57,7 @@ const submit = async (payload) => {
           v-model="form.login"
           :icon="mdiAccount"
           name="login"
-          autocomplete="username"
+          autocomplete="email"
         />
       </FormField>
 
@@ -81,7 +85,7 @@ const submit = async (payload) => {
         <BaseButton
           @click="submit({ type: 'magiclink', data: form.login })"
           color="white"
-          label="Login"
+          :label="(!loading) ? 'Login' : 'Loading...'"
         />
       </BaseButtons>
 
@@ -97,30 +101,35 @@ const submit = async (payload) => {
             color="light"
             label="Google"
             disabled
+            outline
           />
           <BaseButton
             @click="submit()"
             color="light"
             label="Twitter"
             disabled
+            outline
           />
           <BaseButton
             @click="submit()"
             color="light"
             label="Github"
             disabled
+            outline
           />
           <BaseButton
             @click="submit()"
             color="light"
             label="LinkedIn"
             disabled
+            outline
           />
           <BaseButton
             @click="submit()"
             color="light"
             label="Discord"
             disabled
+            outline
           />
         </BaseButtons>
       </FormField>
@@ -142,12 +151,14 @@ const submit = async (payload) => {
             color="light"
             label="WalletConnect"
             disabled
+            outline
           />
           <BaseButton
             @click="submit({ type: 'privateKey', key: form.privateKey })"
             color="light"
             label="Private Key"
             disabled
+            outline
           />
         </BaseButtons>
       </FormField>
