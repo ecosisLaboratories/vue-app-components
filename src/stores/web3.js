@@ -3,6 +3,8 @@ import axios from 'axios'
 import Moralis from 'moralis'
 import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '../config'
 
+// axios get `https://raw.githubusercontent.com/AwesomeEcosystem/assets/master/blockchains/${chain}/assets/${assetAddress}/info.json`
+
 // Setup Moralis
 Moralis.start({
   appId: MORALIS_API,
@@ -72,7 +74,7 @@ export const useWeb3Store = defineStore('web3', {
     user,
     addresses: [],
     transactions: [],
-    avatar: 'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93'
+    avatar: ''
   }),
   actions: {
     async authenticate(payload) {
