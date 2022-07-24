@@ -11,6 +11,11 @@ import {
   mdiAccount,
   mdiAccountGroup,
   mdiWallet,
+  mdiCashMultiple,
+  mdiStore,
+  mdiTools,
+  mdiVote,
+  mdiLayersTriple,
   mdiAndroidMessages,
   mdiLock,
   mdiAlertCircle,
@@ -58,6 +63,43 @@ export default [
       to: '/dashboard',
       icon: mdiAccountGroup,
       label: 'Organizations'
+    }
+  ],
+  'Governance',
+  [
+    {
+      to: '/dashboard',
+      icon: mdiVote,
+      label: 'Vote'
+    },{
+      label: 'Proposal',
+      icon: mdiLayersTriple,
+      menu: [
+        {
+          label: 'Create'
+        },
+        {
+          label: 'Recent'
+        }
+      ]
+    }
+  ],
+  'Market',
+  [
+    {
+      to: '/dashboard',
+      icon: mdiTools,
+      label: 'Tools'
+    },
+    {
+      to: '/dashboard',
+      icon: mdiCashMultiple,
+      label: 'Assets'
+    },
+    {
+      to: '/dashboard',
+      icon: mdiStore,
+      label: 'Store'
     }
   ],
   'About',
