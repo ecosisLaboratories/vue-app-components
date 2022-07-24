@@ -5,10 +5,10 @@ export const sectionBgError = `${sectionBgBase} from-pink-400 via-red-500 to-yel
 export const sectionBgErrorDark = `${sectionBgBase} from-pink-900 via-red-900 to-yellow-900`
 
 export const colorsBg = {
-  white: 'bg-white text-black',
-  light: 'bg-gray-100 text-black',
-  success: 'bg-gradient-to-tr from-emerald-500 to-emerald-900 text-white',
-  danger: 'bg-gradient-to-tr from-red-500 to-red-900 text-white',
+  white: 'bg-gray-100 text-black',
+  light: 'bg-white text-black',
+  success: 'bg-gradient-to-tr from-emerald-500 to-emerald-700 text-white',
+  danger: 'bg-gradient-to-tr from-red-500 to-red-700 text-white',
   warning: 'bg-gradient-to-tr from-yellow-500 to-red-500 text-white',
   info: 'bg-gradient-to-tr from-blue-500 to-blue-900 text-white'
 }
@@ -18,17 +18,17 @@ export const colorsBgHover = {
   light: 'hover:bg-gray-200',
   success: 'hover:bg-emerald-700',
   danger: 'hover:bg-red-700',
-  warning: 'hover:bg-yellow-700',
+  warning: 'hover:bg-yellow-500',
   info: 'hover:bg-blue-700'
 }
 
 export const colorsBorders = {
   white: 'border-gray-300',
   light: 'border-gray-200 dark:border-gray-400',
-  success: 'border-emerald-700',
-  danger: 'border-red-700',
-  warning: 'border-yellow-700',
-  info: 'border-blue-700'
+  success: '',
+  danger: '',
+  warning: '',
+  info: ''
 }
 
 export const colorsText = {
@@ -41,7 +41,7 @@ export const colorsText = {
 }
 
 export const colorsOutline = {
-  white: [colorsText.white, colorsBorders.white],
+  white: [colorsBorders.white, colorsBorders.white],
   light: [colorsText.light, colorsBorders.light],
   success: [colorsText.success, colorsBorders.success],
   danger: [colorsText.danger, colorsBorders.danger],
