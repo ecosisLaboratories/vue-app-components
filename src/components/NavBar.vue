@@ -122,7 +122,7 @@ const logout = () => {
             <UserAvatar class="w-6 h-6 mr-3 inline-flex" />
           </NavBarItemLabel>
 
-          <template #dropdown>
+          <!-- <template #dropdown>
             <NavBarItem to="/profile">
               <NavBarItemLabel
                 :icon="mdiAccount"
@@ -148,7 +148,7 @@ const logout = () => {
                 label="Log Out"
               />
             </NavBarItem>
-          </template>
+          </template> -->
         </NavBarMenu>
         <NavBarItem
           has-divider

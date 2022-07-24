@@ -54,10 +54,10 @@ onBeforeUnmount(() => {
       :class="styleStore.navBarMenuListUpperLabelStyle"
     >
       <slot />
-      <BaseIcon
+      <!-- <BaseIcon
         :path="toggleDropdownIcon"
         class="hidden lg:inline-flex transition-colors"
-      />
+      /> -->
     </a>
     <div
       class="text-sm border-b border-gray-100 lg:border-b-0 lg:border-gray-200 lg:border-t lg:bg-white lg:absolute

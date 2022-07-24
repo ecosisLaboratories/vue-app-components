@@ -23,7 +23,8 @@ const props = defineProps({
   hasDivider: Boolean,
   isDesktopIconOnly: Boolean,
   dropdown: Boolean,
-  active: Boolean
+  active: Boolean,
+  disabled: Boolean
 })
 
 const is = computed(() => {
@@ -71,6 +72,10 @@ const componentClass = computed(() => {
 
   if (props.isDesktopIconOnly) {
     base.push('lg:w-16', 'lg:justify-center')
+  }
+
+  if (props.disabled) {
+    base.push('cursor-not-allowed', props.outline ? 'opacity-50' : 'opacity-70')
   }
 
   return base
