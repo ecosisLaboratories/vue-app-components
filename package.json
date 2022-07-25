@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.4.95",
+    "@meforma/vue-copy-to-clipboard": "^0.0.1",
     "@walletconnect/web3-provider": "^1.7.8",
     "@web3auth/web3auth": "^1.1.1",
     "axios": "^0.27.0",
@@ -19,6 +20,7 @@
     "moralis": "^1.9.1",
     "numeral": "^2.0.6",
     "pinia": "^2.0.13",
+    "qrcode.vue": "^3.3.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
     "vue3-touch-events": "^4.1.0"
