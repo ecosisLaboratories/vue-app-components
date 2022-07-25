@@ -103,34 +103,52 @@ onMounted(async () => {
       has-cancel
       @submit.prevent="web3Store.sendAsset({ amount, receiver })"
     >
-      <FormField
-        label="Send entered Amount of selected Token"
-      >
-        <div class="flex flex-wrap">
-          <div class="w-full flex flex-col justify-around items-center py-8">
+      <div class="flex flex-wrap">
+        <div class="w-full flex flex-col justify-around items-center py-8">
+          <FormField
+            label="Amount"
+            help="Enter Amount"
+          >
             <FormControl
               class="w-64 py-4"
               type="number"
               :icon="mdiAccount"
             />
+          </FormField>
+          <FormField
+            label="Asset"
+            help="Select Asset"
+          >
             <FormControl
               class="w-64 py-4"
               type="select"
               :icon="mdiMail"
               :options="assets"
             />
-          </div>
-          <div class="w-full md:w-1/2 my-12 mr-8">
-            Amount
-            <div class="flex">
-              {{ amount }}
-              <div class="px-4">
-                Avax
-              </div>
+          </FormField>
+
+          <FormField
+            label="Receiver"
+            help="Address"
+          >
+            <FormControl
+              class="w-64 py-4"
+              type="text"
+              :icon="mdiMail"
+              v-model="receiver"
+            />
+          </FormField>
+        </div>
+        <!-- <div class="w-full md:w-1/2 my-12 mr-8">
+          Amount
+          <div class="flex">
+            {{ amount }}
+            <div class="px-4">
+              Avax
             </div>
           </div>
-        </div>
-      </FormField>
+        </div> -->
+      </div>
     </CardBoxModal>
 
     <div class="flex flex-wrap mb-6">
