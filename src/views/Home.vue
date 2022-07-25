@@ -26,13 +26,9 @@ import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
-const titleStack = ref(['Admin', 'Dashboard'])
+const titleStack = ref(['Hub', 'Dashboard'])
 
 const chartData = ref(null)
-
-const fillChartData = () => {
-  chartData.value = chartConfig.sampleChartData()
-}
 
 const mainStore = useMainStore()
 
@@ -42,6 +38,53 @@ const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
 
 const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
 
+const fillChartData = async () => {
+  try {
+    let data = {
+      datasets: [
+        {
+          label: 'Avalanche',
+          borderColor: '#E84142',
+          pointBackgroundColor: '#E84142',
+          data: [],
+          tension: 0.5,
+        },
+        {
+          borderColor: '#1969FF',
+          pointBackgroundColor: '#1969FF',
+          data: [],
+          tension: 0.5,
+        },
+        {
+          borderColor: '#8247e5',
+          pointBackgroundColor: '#8247e5',
+          data: [],
+          tension: 0.5,
+        },
+        {
+          borderColor: '#828385',
+          pointBackgroundColor: '#828385',
+          data: [],
+          tension: 0.5,
+        },
+      ],
+    }
+
+    const res = await web3Store.getMarketPrice()
+
+    res.data.Data.Data.forEach((item, i) => {
+      data.datasets[0].data.push({
+        x: new Date(item.time).toString(),
+        y: item.close
+      })
+    })
+
+    chartData.value = data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 onMounted(async () => {
   await web3Store.getTransactions()
   fillChartData()
@@ -50,7 +93,6 @@ onMounted(async () => {
 
 <template>
   <SectionTitleBar :title-stack="titleStack" />
-  <SectionHeroBar>Dashboard</SectionHeroBar>
   <SectionMain>
     <!-- <NotificationBar
       color="info"
@@ -73,62 +115,18 @@ onMounted(async () => {
       </template>
     </NotificationBar> -->
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
-      <CardBoxWidget
-        trend="12%"
-        trend-type="up"
-        color="text-emerald-500"
-        :icon="mdiAccountMultiple"
-        :number="512"
-        label="Clients"
-      />
-      <CardBoxWidget
-        trend="12%"
-        trend-type="down"
-        color="text-blue-500"
-        :icon="mdiCartOutline"
-        :number="7770"
-        prefix="$"
-        label="Sales"
-      />
-      <CardBoxWidget
-        trend="Overflow"
-        trend-type="alert"
-        color="text-red-500"
-        :icon="mdiChartTimelineVariant"
-        :number="256"
-        suffix="%"
-        label="Performance"
-      />
-    </div>
-
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-      <div class="flex flex-col justify-between">
-        <CardBoxTransaction
-          v-for="(transaction,index) in transactionBarItems"
-          :key="index"
-          :amount="transaction.amount"
-          :date="transaction.date"
-          :business="transaction.business"
-          :type="transaction.type"
-          :name="transaction.name"
-          :account="transaction.account"
-        />
-      </div>
-      <div class="flex flex-col justify-between">
-        <CardBoxClient
-          v-for="client in clientBarItems"
-          :key="client.id"
-          :name="client.name"
-          :login="client.login"
-          :date="client.created"
-          :progress="client.progress"
-        />
-      </div>
+      <!-- <CardBoxClient
+        v-for="client in clientBarItems"
+        :key="client.id"
+        :name="client.name"
+        :login="client.login"
+        :progress="client.progress"
+      /> -->
     </div>
 
     <SectionTitleBarSub
       :icon="mdiChartPie"
-      title="Trends overview"
+      title="Market Overview"
     />
 
     <CardBox
@@ -144,26 +142,6 @@ onMounted(async () => {
           class="h-96"
         />
       </div>
-    </CardBox>
-
-    <SectionTitleBarSub
-      :icon="mdiAccountMultiple"
-      title="Clients"
-    />
-
-    <!-- <NotificationBar
-      color="info"
-      :icon="mdiMonitorCellphone"
-    >
-      <b>Responsive table.</b> Collapses on mobile
-    </NotificationBar> -->
-
-    <CardBox
-      :icon="mdiMonitorCellphone"
-      title="On-Chain Transactions"
-      has-table
-    >
-      <TableTransactions />
     </CardBox>
   </SectionMain>
 </template>
