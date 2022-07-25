@@ -67,12 +67,34 @@ class Transaction {
   }
 }
 
+class Asset {
+  chain
+  asset
+  decimals
+  amount
+  constructor(data) {
+    chain: data.chain
+    asset: data.asset
+    decimals: data.decimals
+    amount: data.amount
+  }
+}
+
+const chains = [
+  'eth', 'avalanche', 'polygon', 'fantom'
+]
+
+const getMarketPrice = async () => {
+  const asset = 'AVAX'
+  return await axios.get(`https://min-api.cryptocompare.com/data/v2/histoday?fsym=${asset}&tsym=USD&limit=7&toTs=-1`)
+}
 // Setup Web 3 Store
 export const useWeb3Store = defineStore('web3', {
   state: () => ({
     /* User */
     user,
     addresses: [],
+    balances: [],
     transactions: [],
     avatar: ''
   }),
@@ -80,46 +102,116 @@ export const useWeb3Store = defineStore('web3', {
     async authenticate(payload) {
       try {
         this.user = await Moralis.authenticate(setConfig(payload))
-        this.addresses
+        // this.addresses
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async getTransactions() {
-      const allTransactions = []
-      const transactions = await Moralis.Web3API.account.getTransactions({ chain: 'avalanche' })
-      const tokenTranfers = await Moralis.Web3API.account.getTokenTransfers({ chain: 'avalanche' })
+    async getBalances(chain) {
+      try {
+        let allBalances = []
+        let nativeBalances = []
+        let tokenBalances = []
 
-      const newTransactionListNative = []
-      const newTransactionListToken = []
+        if (!chain) {
+          chains.forEach(async (chain, i) => {
 
-      transactions.result.forEach((item, i) => {
-        const tx = new Transaction({
-          chain: 'avalanche',
-          timestamp: item.block_timestamp,
-          receiver: item.to_address,
-          amount: item.value,
+            let nativeBalance = await Moralis.Web3API.account.getNativeBalance({ chain })
+            let tokenBalance = await Moralis.Web3API.account.getTokenBalances({ chain })
+
+            nativeBalances = nativeBalances.concat(nativeBalance)
+            tokenBalances = tokenBalances.concat(tokenBalance)
+          })
+        }
+        const newBalanceListNative = []
+        const newBalanceListToken = []
+        
+        nativeBalances.forEach((item, i) => {
+          const tx = new Asset({
+            chain,
+            timestamp: item.block_timestamp,
+            receiver: item.to_address,
+            amount: item.value,
+          })
+          newBalanceListNative.push(tx)
+        });
+
+        tokenBalances.forEach((item, i) => {
+          const tx = new Asset({
+            chain,
+            asset: item.name,
+            amount: item.value,
+          })
+          newTransactionListToken.push(tx)
+        });
+
+        const fullList = newBalanceListNative.concat(newBalanceListToken)
+        // fullList.sort((a, b) => {
+        //   return new Date(b.timestamp) - new Date(a.timestamp)
+        // })
+
+        this.balances = fullList
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
+    async getTransactions(chain) {
+      try {
+        let allTransactions = []
+        let transactions = []
+        let tokenTranfers = []
+
+        if (!chain) {
+          chains.forEach(async (chain, i) => {
+
+            let transaction = await Moralis.Web3API.account.getTransactions({ chain })
+            let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain })
+
+            transactions = transactions.concat(transaction.result)
+            tokenTranfers = tokenTranfers.concat(transfer.result)
+          });
+        }
+
+        // if (chain === 'eth') {
+        //   chain = 'ethereum'
+        // }
+        // if (chain === 'avalanche') {
+        //   chain = 'avalanchec'
+        // }
+
+        const newTransactionListNative = []
+        const newTransactionListToken = []
+
+        transactions.forEach((item, i) => {
+          const tx = new Transaction({
+            chain,
+            timestamp: item.block_timestamp,
+            receiver: item.to_address,
+            amount: item.value,
+          })
+          newTransactionListNative.push(tx)
+        });
+
+        tokenTranfers.forEach((item, i) => {
+          const tx = new Transaction({
+            chain,
+            timestamp: item.block_timestamp,
+            receiver: item.to_address,
+            asset: item.address,
+            amount: item.value,
+          })
+          newTransactionListToken.push(tx)
+        });
+
+        const fullList = newTransactionListNative.concat(newTransactionListToken)
+        fullList.sort((a, b) => {
+          return new Date(b.timestamp) - new Date(a.timestamp)
         })
-        newTransactionListNative.push(tx)
-      });
 
-      tokenTranfers.result.forEach((item, i) => {
-        const tx = new Transaction({
-          chain: 'avalanche',
-          timestamp: item.block_timestamp,
-          receiver: item.to_address,
-          asset: item.address,
-          amount: item.value,
-        })
-        newTransactionListToken.push(tx)
-      });
+        this.transactions = fullList
+      } catch (e) {
 
-      const fullList = newTransactionListNative.concat(newTransactionListToken)
-      fullList.sort((a, b) => {
-        return new Date(b.timestamp) - new Date(a.timestamp)
-      })
-
-      this.transactions = fullList
+      }
     },
     async sendAsset(options) {
       try {
@@ -128,6 +220,21 @@ export const useWeb3Store = defineStore('web3', {
         throw new Error(e.message)
       }
     },
+    async receiveAsset(options) {
+      try {
+
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
+    async swapAsset(options) {
+      try {
+
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
+    getMarketPrice,
     async disconnect() {
       Moralis.User.logOut()
     }
