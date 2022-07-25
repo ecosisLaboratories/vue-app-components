@@ -21,7 +21,8 @@ import {
   mdiGithub,
   mdiThemeLightDark,
   mdiMonitorShimmer,
-  mdiOpenInNew
+  mdiOpenInNew,
+  mdiCog,
 } from '@mdi/js'
 import NavBarItem from '@/components/NavBarItem.vue'
 import NavBarItemLabel from '@/components/NavBarItemLabel.vue'
@@ -69,6 +70,7 @@ const logout = () => {
   web3Store.disconnect()
   router.push('/login')
 }
+
 </script>
 
 <template>
@@ -98,7 +100,7 @@ const logout = () => {
         />
       </NavBarItem>
       <NavBarItem>
-        <NavBarSearch />
+        <!-- <NavBarSearch /> -->
       </NavBarItem>
     </div>
     <div class="flex-none items-stretch flex h-14 lg:hidden">
@@ -118,7 +120,7 @@ const logout = () => {
         class="max-h-screen-menu overflow-y-auto lg:overflow-visible lg:flex lg:items-stretch lg:justify-end lg:ml-auto"
       >
         <NavBarMenu has-divider>
-          <NavBarItemLabel :label="userName">
+          <NavBarItemLabel :label="userName" @click="router.push('/profile')">
             <UserAvatar class="w-6 h-6 mr-3 inline-flex" />
           </NavBarItemLabel>
 
@@ -161,17 +163,17 @@ const logout = () => {
             is-desktop-icon-only
           />
         </NavBarItem>
-        <!-- <NavBarItem
-          href="https://github.com/justboil/admin-one-vue-tailwind"
+        <NavBarItem
+          @click.prevent="$router.push('/settings')"
           has-divider
           is-desktop-icon-only
         >
           <NavBarItemLabel
-            :icon="mdiGithub"
-            label="GitHub"
+            :icon="mdiCog"
+            label="Settings"
             is-desktop-icon-only
           />
-        </NavBarItem> -->
+        </NavBarItem>
         <NavBarItem
           is-desktop-icon-only
           @click="logout"
