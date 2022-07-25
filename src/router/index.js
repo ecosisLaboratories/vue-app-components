@@ -25,11 +25,19 @@ const routes = [
   },
   {
     meta: {
-      title: 'Tables'
+      title: 'Wallet'
     },
-    path: '/tables',
-    name: 'tables',
-    component: () => import('@/views/Tables.vue')
+    path: '/wallet',
+    name: 'wallet',
+    component: () => import('@/views/Wallet.vue')
+  },
+  {
+    meta: {
+      title: 'Settings'
+    },
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/Settings.vue')
   },
   {
     meta: {
