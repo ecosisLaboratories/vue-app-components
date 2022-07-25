@@ -10,15 +10,6 @@ import FooterBar from '@/components/FooterBar.vue'
 import OverlayLayer from '@/components/OverlayLayer.vue'
 import CardBoxModal from '@/components/CardBoxModal.vue'
 
-// Setup Main
-const mainStore = useMainStore()
-
-mainStore.setUser({
-  name: 'John Doe',
-  email: 'john@example.com',
-  avatar: 'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93'
-})
-
 // Setup Layout
 const layoutStore = useLayoutStore()
 
@@ -72,7 +63,7 @@ emitter.on('error', (e) => { // TODO Facelift
       <AsideMenu :menu="menu" v-click-outside="swipeLeft"/>
     </section>
     <RouterView/>
-    <FooterBar/>
+    <!-- <FooterBar/> -->
     <OverlayLayer
       v-show="isAsideLgActive"
       z-index="z-30"
