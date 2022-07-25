@@ -1,7 +1,13 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useWeb3Store } from '@/stores/web3'
-import { mdiEye, mdiTrashCan } from '@mdi/js'
+import {
+  mdiEye,
+  mdiTrashCan,
+  mdiSend,
+  mdiCallReceived,
+  mdiSwapHorizontalBold,
+ } from '@mdi/js'
 import CardBox from '@/components/CardBox.vue'
 import CardBoxModal from '@/components/CardBoxModal.vue'
 import TableCheckboxCell from '@/components/TableCheckboxCell.vue'
@@ -14,9 +20,9 @@ defineProps({
   checkable: Boolean
 })
 
-const mainStore = useWeb3Store()
+const web3Store = useWeb3Store()
 
-const items = computed(() => mainStore.transactions)
+const items = computed(() => web3Store.balances)
 
 const isModalActive = ref(false)
 
@@ -65,6 +71,17 @@ const checked = (isChecked, tx) => {
     checkedRows.value = remove(checkedRows.value, row => row.id === tx.id)
   }
 }
+
+const formatValue = (value) => {
+  return Intl.NumberFormat('en-US', {
+    maximumSignificantDigits: 3,
+    notation: 'compact',
+  }).format(value)
+}
+
+onMounted(async () => {
+  await web3Store.getBalances()
+})
 </script>
 
 <template>
@@ -104,10 +121,8 @@ const checked = (isChecked, tx) => {
         <!-- <th v-if="checkable" /> -->
         <!-- <th /> -->
         <th>Chain</th>
-        <th>Time</th>
         <th>Asset</th>
         <th>Amount</th>
-        <th>Receiver</th>
         <!-- <th /> -->
       </tr>
     </thead>
@@ -129,17 +144,11 @@ const checked = (isChecked, tx) => {
         <td data-label="Chain">
           {{ tx.chain }}
         </td>
-        <td data-label="Time">
-          {{ tx.timestamp }}
-        </td>
         <td data-label="Asset">
-          {{ tx.asset }}
+          {{ tx.name }}
         </td>
         <td data-label="Amount">
-          {{ tx.amount }}
-        </td>
-        <td data-label="Receiver">
-          {{ tx.receiver }}
+          {{ tx.balance * Math.pow(10, parseInt(tx.decimals)) }}
         </td>
         <!-- <td
           data-label="Progress"
@@ -163,22 +172,29 @@ const checked = (isChecked, tx) => {
           >{{ tx.created }}</small>
         </td> -->
         <td class="before:hidden lg:w-1 whitespace-nowrap">
-          <BaseButtons
-            type="justify-start lg:justify-end"
-            no-wrap
-          >
+          <BaseButtons class="flex justify-center">
             <BaseButton
+              class="flex-1"
+              @click=""
               color="info"
-              :icon="mdiEye"
-              small
-              @click="isModalActive = true"
+              :icon="mdiSend"
             />
-            <!-- <BaseButton
-              color="danger"
-              :icon="mdiTrashCan"
-              small
-              @click="isModalDangerActive = true"
-            /> -->
+            <BaseButton
+              class="flex-1"
+              @click=""
+              color="info"
+              :icon="mdiCallReceived"
+              disabled
+              outline
+            />
+            <BaseButton
+              class="flex-1"
+              @click=""
+              color="info"
+              :icon="mdiSwapHorizontalBold"
+              disabled
+              outline
+            />
           </BaseButtons>
         </td>
       </tr>
