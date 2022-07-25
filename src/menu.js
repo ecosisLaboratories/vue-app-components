@@ -59,11 +59,15 @@ export default [
       icon: mdiWallet,
       label: 'Wallet'
     },
-    // {
-    //   to: '/dashboard',
-    //   icon: mdiAccountGroup,
-    //   label: 'Organizations'
-    // }
+    {
+      label: 'Apps',
+      icon: mdiLayersTriple,
+      menu: [
+        {
+          label: 'Coming Soon'
+        },
+      ]
+    }
   ],
   // 'Governance',
   // [
@@ -71,7 +75,8 @@ export default [
   //     to: '/dashboard',
   //     icon: mdiVote,
   //     label: 'Vote'
-  //   },{
+  //   },
+  //   {
   //     label: 'Proposal',
   //     icon: mdiLayersTriple,
   //     menu: [
