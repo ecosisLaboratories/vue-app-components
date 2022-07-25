@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useWeb3Store } from '@/stores/web3'
-import { mdiCheckDecagram } from '@mdi/js'
+import { mdiCheckDecagram, mdiInformation } from '@mdi/js'
 import BaseLevel from '@/components/BaseLevel.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import CardBox from '@/components/CardBox.vue'
@@ -11,6 +11,7 @@ import PillTag from '@/components/PillTag.vue'
 const web3Store = useWeb3Store()
 
 const id = computed(() => web3Store.user.id)
+const verified = computed(() => web3Store.user.verified)
 
 const userSwitchVal = ref([])
 </script>
@@ -26,9 +27,16 @@ const userSwitchVal = ref([])
         <!-- <p>Last login <b>12 mins ago</b> from <b>127.0.0.1</b></p> -->
         <div class="w-full flex flex-col justify-center items-center">
           <PillTag
+            text="Not Verified"
+            type="white"
+            :icon="mdiInformation"
+            v-if="!verified"
+          />
+          <PillTag
             text="Verified"
             type="info"
             :icon="mdiCheckDecagram"
+            v-else
           />
         </div>
       </div>
