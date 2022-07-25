@@ -56,8 +56,8 @@ const cancel = () => confirmCancel('cancel')
     <CardBox
       v-show="value"
       :title="title"
-      class="shadow-lg w-full max-h-modal md:w-3/5 lg:w-2/5 z-50"
-      rounded="rounded-lg"
+      class="shadow-lg w-auto max-h-modal z-50"
+      rounded="rounded-xl"
       :header-icon="mdiClose"
       modal
       @header-icon-click="cancel"
@@ -83,7 +83,7 @@ const cancel = () => confirmCancel('cancel')
         <BaseButton
           v-if="hasCancel"
           label="Cancel"
-          :color="button"
+          color="white"
           outline
           @click="cancel"
         />

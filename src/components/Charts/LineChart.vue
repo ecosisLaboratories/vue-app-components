@@ -32,15 +32,29 @@ onMounted(() => {
       maintainAspectRatio: false,
       scales: {
         y: {
-          display: false
+          display: true,
+          ticks: {
+            // Include a dollar sign in the ticks
+            callback(value, index, ticks) {
+              return '$ ' + value
+            }
+          }
         },
         x: {
-          display: true
+          display: true,
+          ticks: {
+            // Include a dollar sign in the ticks
+            callback(value, index, ticks) {
+              const date = new Date(value)
+              // return date.toLocaleString("en-US", { hour: "numeric" })
+              return value
+            }
+          }
         }
       },
       plugins: {
         legend: {
-          display: false
+          display: true
         }
       }
     }
