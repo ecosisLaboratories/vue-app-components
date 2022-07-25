@@ -11,6 +11,7 @@ import { darkModeKey, styleKey } from '@/config.js'
 import Vue3TouchEvents from "vue3-touch-events"
 import vClickOutside from "click-outside-vue3"
 import mitt from 'mitt'
+import copyText from "@meforma/vue-copy-to-clipboard";
 
 import './css/main.css'
 
@@ -26,6 +27,7 @@ createApp(App)
   .use(pinia)
   .use(Vue3TouchEvents)
   .use(vClickOutside)
+  .use(copyText)
   .provide('emitter', emitter)
   .mount('#app')
 
