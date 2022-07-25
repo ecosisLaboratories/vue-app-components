@@ -29,23 +29,23 @@ import {
 } from '@mdi/js'
 
 export default [
-  'General',
+  'Hub',
   [
     {
       to: '/dashboard',
       icon: mdiDesktopMac,
       label: 'Dashboard'
     },
-    {
-      to: '/dashboard',
-      icon: mdiViewStream,
-      label: 'Feed'
-    },
-    {
-      to: '/dashboard',
-      icon: mdiEarth,
-      label: 'Explore'
-    }
+    // {
+    //   to: '/dashboard',
+    //   icon: mdiViewStream,
+    //   label: 'Feed'
+    // },
+    // {
+    //   to: '/dashboard',
+    //   icon: mdiEarth,
+    //   label: 'Explore'
+    // }
   ],
   'User',
   [
@@ -55,47 +55,47 @@ export default [
       label: 'Profile'
     },
     {
-      to: '/dashboard',
+      to: '/wallet',
       icon: mdiWallet,
       label: 'Wallet'
     },
-    {
-      to: '/dashboard',
-      icon: mdiAccountGroup,
-      label: 'Organizations'
-    }
+    // {
+    //   to: '/dashboard',
+    //   icon: mdiAccountGroup,
+    //   label: 'Organizations'
+    // }
   ],
-  'Governance',
-  [
-    {
-      to: '/dashboard',
-      icon: mdiVote,
-      label: 'Vote'
-    },{
-      label: 'Proposal',
-      icon: mdiLayersTriple,
-      menu: [
-        {
-          label: 'Create'
-        },
-        {
-          label: 'Recent'
-        }
-      ]
-    }
-  ],
+  // 'Governance',
+  // [
+  //   {
+  //     to: '/dashboard',
+  //     icon: mdiVote,
+  //     label: 'Vote'
+  //   },{
+  //     label: 'Proposal',
+  //     icon: mdiLayersTriple,
+  //     menu: [
+  //       {
+  //         label: 'Create'
+  //       },
+  //       {
+  //         label: 'Recent'
+  //       }
+  //     ]
+  //   }
+  // ],
   'Market',
   [
-    {
-      to: '/dashboard',
-      icon: mdiTools,
-      label: 'Tools'
-    },
-    {
-      to: '/dashboard',
-      icon: mdiCashMultiple,
-      label: 'Assets'
-    },
+    // {
+    //   to: '/dashboard',
+    //   icon: mdiTools,
+    //   label: 'Tools'
+    // },
+    // {
+    //   to: '/dashboard',
+    //   icon: mdiCashMultiple,
+    //   label: 'Assets'
+    // },
     {
       to: '/dashboard',
       icon: mdiStore,
