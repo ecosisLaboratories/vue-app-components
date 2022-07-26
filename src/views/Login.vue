@@ -54,7 +54,7 @@ const submit = async (payload) => {
       :class="cardClass"
       :rounded="cardRounded"
       form
-      @submit.prevent="submit({ type: 'magiclink', data: form.login })"
+      @submit.prevent="submit({ provider: 'magiclink', data: form.login })"
     >
       <FormField
         label="Login via Mail (Custodial)"
@@ -90,7 +90,7 @@ const submit = async (payload) => {
 
       <BaseButtons>
         <BaseButton
-          @click="submit({ type: 'magiclink', data: form.login })"
+          @click="submit({ provider: 'magiclink', data: form.login })"
           color="white"
           :label="(!loading) ? 'Login' : 'Loading...'"
         />
@@ -149,19 +149,23 @@ const submit = async (payload) => {
       >
         <BaseButtons>
           <BaseButton
-            @click="submit({ type: 'metamask'})"
+            @click="submit({ provider: 'metamask'})"
             color="white"
             label="Metamask"
           />
           <BaseButton
-            @click="submit({ type: 'walletconnect'})"
+            @click="submit({ provider: 'walletconnect'})"
             color="white"
             label="WalletConnect"
+            disabled
+            outline
           />
           <BaseButton
             @click="withPrivatKey = !withPrivatKey"
             color="white"
             label="Private Key"
+            disabled
+            outline
           />
           <div
             class="w-full"
@@ -170,11 +174,11 @@ const submit = async (payload) => {
               class="w-full my-4"
               type="password"
               :icon="mdiKey"
-              @submit.prevent="submit({ type: 'privateKey', key: form.privateKey })"
+              @submit.prevent="submit({ provider: 'privateKey', key: form.privateKey })"
             />
             <BaseButton
               class="w-full"
-              @click="submit({ type: 'privateKey', key: form.privateKey })"
+              @click="submit({ provider: 'privateKey', key: form.privateKey })"
               color="white"
               label="Import"
             />
