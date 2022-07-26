@@ -110,7 +110,8 @@ onMounted(async () => {
             help="Enter Amount"
           >
             <FormControl
-              class="w-64 py-4"
+              class="max-full py-4"
+              :style="{ width: '350px' }"
               type="number"
               :icon="mdiAccount"
             />
@@ -120,7 +121,8 @@ onMounted(async () => {
             help="Select Asset"
           >
             <FormControl
-              class="w-64 py-4"
+              class="max-full py-4"
+              :style="{ width: '350px' }"
               type="select"
               :icon="mdiMail"
               :options="assets"
@@ -132,7 +134,8 @@ onMounted(async () => {
             help="Address"
           >
             <FormControl
-              class="w-64 py-4"
+              class="max-full py-4"
+              :style="{ width: '350px' }"
               type="text"
               :icon="mdiMail"
               v-model="receiver"
