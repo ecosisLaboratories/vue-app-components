@@ -1,7 +1,11 @@
 <script setup>
 import { reactive, ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import { mdiAccount, mdiAsterisk } from '@mdi/js'
+import {
+  mdiAccount,
+  mdiAsterisk,
+  mdiKey
+} from '@mdi/js'
 import { useWeb3Store } from '@/stores/web3.js'
 import SectionFullScreen from '@/components/SectionFullScreen.vue'
 import CardBox from '@/components/CardBox.vue'
@@ -14,7 +18,8 @@ import BaseButtons from '@/components/BaseButtons.vue'
 
 const web3Store = useWeb3Store()
 
-let loading = ref(false)
+const loading = ref(false)
+const withPrivatKey = ref(false)
 
 const form = reactive({
   login: '',
@@ -29,14 +34,16 @@ const emitter = inject('emitter')
 
 const submit = async (payload) => {
   try {
-    loading = true
+    loading.value = true
     await web3Store.authenticate(payload)
     router.push('/dashboard')
-    loading = false
   } catch (e) {
     emitter.emit('error', e)
+  } finally {
+    loading.value = false
   }
 }
+
 </script>
 
 <template>
@@ -138,7 +145,7 @@ const submit = async (payload) => {
 
       <FormField
         label="Login via Web 3 (Non-Custodial)"
-        help="Use a provider you prefer"
+        :help="(!withPrivatKey) ? 'Use a provider you prefer' : 'Enter your Private Key'"
       >
         <BaseButtons>
           <BaseButton
@@ -148,19 +155,32 @@ const submit = async (payload) => {
           />
           <BaseButton
             @click="submit({ type: 'walletconnect'})"
-            color="light"
+            color="white"
             label="WalletConnect"
-            disabled
-            outline
           />
           <BaseButton
-            @click="submit({ type: 'privateKey', key: form.privateKey })"
-            color="light"
+            @click="withPrivatKey = !withPrivatKey"
+            color="white"
             label="Private Key"
-            disabled
-            outline
           />
+          <div
+            class="w-full"
+            v-if="withPrivatKey">
+            <FormControl
+              class="w-full my-4"
+              type="password"
+              :icon="mdiKey"
+              @submit.prevent="submit({ type: 'privateKey', key: form.privateKey })"
+            />
+            <BaseButton
+              class="w-full"
+              @click="submit({ type: 'privateKey', key: form.privateKey })"
+              color="white"
+              label="Import"
+            />
+          </div>
         </BaseButtons>
+
       </FormField>
     </CardBox>
   </SectionFullScreen>
