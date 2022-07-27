@@ -48,6 +48,7 @@ const sendModal = ref(false)
 
 const amount = ref(0)
 const receiver = ref('')
+const assets = ref([])
 
 const chartData = ref(null)
 
@@ -64,8 +65,10 @@ const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
 const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
 
 onMounted(async () => {
-  await web3Store.getTransactions()
-  // await web3Store.getBalances()
+  await web3Store.getBalances()
+  setTimeout(async () => {
+    await web3Store.getTransactions()
+  }, 5000)
   fillChartData()
 })
 </script>
@@ -74,27 +77,6 @@ onMounted(async () => {
   <SectionTitleBar class="hide md:block" :title-stack="titleStack" />
   <!-- <SectionHeroBar class="hide md:block">Wallet</SectionHeroBar> -->
   <SectionMain>
-    <!-- <NotificationBar
-      color="info"
-      :icon="mdiGithub"
-    >
-      Please star this project on
-      <a
-        href="https://github.com/justboil/admin-one-vue-tailwind"
-        class="underline"
-        target="_blank"
-      >GitHub</a>
-      <template #right>
-        <BaseButton
-          href="https://github.com/justboil/admin-one-vue-tailwind"
-          :icon="mdiGithub"
-          label="GitHub"
-          target="_blank"
-          small
-        />
-      </template>
-    </NotificationBar> -->
-
     <CardBoxModal
       v-model="sendModal"
       large-title="Send Funds"
@@ -129,7 +111,7 @@ onMounted(async () => {
               :icon="mdiAccount"
             />
           </FormField>
-          
+
           <FormField
             label="Asset"
             help="Select Asset"
@@ -140,19 +122,12 @@ onMounted(async () => {
               type="select"
               :icon="mdiMail"
               :options="assets"
-            />
+            >
+
+            </FormControl>
           </FormField>
 
         </div>
-        <!-- <div class="w-full md:w-1/2 my-12 mr-8">
-          Amount
-          <div class="flex">
-            {{ amount }}
-            <div class="px-4">
-              Avax
-            </div>
-          </div>
-        </div> -->
       </div>
     </CardBoxModal>
 
