@@ -89,23 +89,18 @@ export default [
   //     ]
   //   }
   // ],
-  'Market',
+  'Business',
   [
-    // {
-    //   to: '/dashboard',
-    //   icon: mdiTools,
-    //   label: 'Tools'
-    // },
-    // {
-    //   to: '/dashboard',
-    //   icon: mdiCashMultiple,
-    //   label: 'Assets'
-    // },
     {
-      to: '/dashboard',
+      // to: '/dashboard',
+      icon: mdiTools,
+      label: 'Create'
+    },
+    {
+      // to: '/dashboard',,
       icon: mdiStore,
-      label: 'Store'
-    }
+      label: 'Explore'
+    },
   ],
   'About',
   [
