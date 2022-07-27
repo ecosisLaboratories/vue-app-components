@@ -106,6 +106,19 @@ onMounted(async () => {
       <div class="flex flex-wrap">
         <div class="w-full flex flex-col justify-around items-center py-8">
           <FormField
+            label="Receiver"
+            help="Address"
+          >
+            <FormControl
+              class="max-full py-4"
+              :style="{ width: '350px' }"
+              type="text"
+              :icon="mdiMail"
+              v-model="receiver"
+            />
+          </FormField>
+
+          <FormField
             label="Amount"
             help="Enter Amount"
           >
@@ -116,6 +129,7 @@ onMounted(async () => {
               :icon="mdiAccount"
             />
           </FormField>
+          
           <FormField
             label="Asset"
             help="Select Asset"
@@ -129,18 +143,6 @@ onMounted(async () => {
             />
           </FormField>
 
-          <FormField
-            label="Receiver"
-            help="Address"
-          >
-            <FormControl
-              class="max-full py-4"
-              :style="{ width: '350px' }"
-              type="text"
-              :icon="mdiMail"
-              v-model="receiver"
-            />
-          </FormField>
         </div>
         <!-- <div class="w-full md:w-1/2 my-12 mr-8">
           Amount
