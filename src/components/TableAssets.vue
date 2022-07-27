@@ -79,10 +79,6 @@ const formatValue = (value) => {
     notation: 'compact',
   }).format(value)
 }
-
-onMounted(async () => {
-  await web3Store.getBalances()
-})
 </script>
 
 <template>
