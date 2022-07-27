@@ -15,6 +15,7 @@ import BaseLevel from '@/components/BaseLevel.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { resolveAssetName, getAssetData, numberWithCommas } from '@/manager'
 
 defineProps({
   checkable: Boolean
@@ -120,9 +121,8 @@ onMounted(async () => {
       <tr>
         <!-- <th v-if="checkable" /> -->
         <!-- <th /> -->
-        <th>Chain</th>
         <th>Asset</th>
-        <th>Amount</th>
+        <th class="flex justify-end">Amount</th>
         <!-- <th /> -->
       </tr>
     </thead>
@@ -141,14 +141,14 @@ onMounted(async () => {
             class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
           />
         </td> -->
-        <td data-label="Chain">
-          {{ tx.chain }}
-        </td>
         <td data-label="Asset">
-          {{ tx.name }}
+          <a :href="tx.website" target="_blank">
+            <img class="w-8 h-8 rounded-full" :src="tx.icon" :title="tx.symbol">
+          </a>
+          <!-- {{ tx.symbol }} -->
         </td>
-        <td data-label="Amount">
-          {{ tx.balance * Math.pow(10, parseInt(tx.decimals)) }}
+        <td data-label="Amount" class="flex md:justify-end">
+          {{ numberWithCommas((tx.balance / Math.pow(10, parseInt(tx.decimals))).toFixed(6)) }}
         </td>
         <!-- <td
           data-label="Progress"
@@ -171,16 +171,14 @@ onMounted(async () => {
             :title="tx.created"
           >{{ tx.created }}</small>
         </td> -->
-        <td class="before:hidden lg:w-1 whitespace-nowrap">
+        <td class="before:hidden whitespace-nowrap flex-col justify-center">
           <BaseButtons class="flex justify-center">
             <BaseButton
-              class="flex-1"
               @click=""
               color="info"
               :icon="mdiSend"
             />
             <BaseButton
-              class="flex-1"
               @click=""
               color="info"
               :icon="mdiCallReceived"
@@ -188,7 +186,6 @@ onMounted(async () => {
               outline
             />
             <BaseButton
-              class="flex-1"
               @click=""
               color="info"
               :icon="mdiSwapHorizontalBold"
