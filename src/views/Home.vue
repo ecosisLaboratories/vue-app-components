@@ -28,7 +28,10 @@ import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
 const titleStack = ref(['Hub', 'Dashboard'])
 
-const chartData = ref(null)
+const chartDataAvax = ref(null)
+const chartDataMatic = ref(null)
+const chartDataFtm = ref(null)
+const chartDataEth = ref(null)
 
 const mainStore = useMainStore()
 
@@ -40,7 +43,7 @@ const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
 
 const fillChartData = async () => {
   try {
-    let data = {
+    let avax = {
       datasets: [
         {
           label: 'Avalanche',
@@ -49,18 +52,33 @@ const fillChartData = async () => {
           data: [],
           tension: 0.5,
         },
+      ],
+    }
+
+    let ftm = {
+      datasets: [
         {
           borderColor: '#1969FF',
           pointBackgroundColor: '#1969FF',
           data: [],
           tension: 0.5,
         },
+      ],
+    }
+
+    let matic = {
+      datasets: [
         {
           borderColor: '#8247e5',
           pointBackgroundColor: '#8247e5',
           data: [],
           tension: 0.5,
         },
+      ],
+    }
+
+    let eth = {
+      datasets: [
         {
           borderColor: '#828385',
           pointBackgroundColor: '#828385',
@@ -70,16 +88,42 @@ const fillChartData = async () => {
       ],
     }
 
-    const res = await web3Store.getMarketPrice()
-
-    res.data.Data.Data.forEach((item, i) => {
-      data.datasets[0].data.push({
+    const avaxPriceHistory = await web3Store.getMarketPrice('AVAX')
+    avaxPriceHistory.data.Data.Data.forEach((item, i) => {
+      avax.datasets[0].data.push({
         x: new Date(item.time).toString(),
         y: item.close
       })
     })
 
-    chartData.value = data
+    const ftmPriceHistory = await web3Store.getMarketPrice('FTM')
+    ftmPriceHistory.data.Data.Data.forEach((item, i) => {
+      ftm.datasets[0].data.push({
+        x: new Date(item.time).toString(),
+        y: item.close
+      })
+    })
+
+    const maticPriceHistory = await web3Store.getMarketPrice('MATIC')
+    maticPriceHistory.data.Data.Data.forEach((item, i) => {
+      matic.datasets[0].data.push({
+        x: new Date(item.time).toString(),
+        y: item.close
+      })
+    })
+
+    const ethereumPriceHistory = await web3Store.getMarketPrice('ETH')
+    ethereumPriceHistory.data.Data.Data.forEach((item, i) => {
+      eth.datasets[0].data.push({
+        x: new Date(item.time).toString(),
+        y: item.close
+      })
+    })
+
+    chartDataAvax.value = avax
+    chartDataMatic.value = ftm
+    chartDataFtm.value = matic
+    chartDataEth.value = eth
   } catch (e) {
     console.log(e)
   }
@@ -130,18 +174,64 @@ onMounted(async () => {
     />
 
     <CardBox
-      title="Performance"
+      :title="`Avalanche`"
       :icon="mdiFinance"
       :header-icon="mdiReload"
       class="mb-6"
       @header-icon-click="fillChartData"
     >
-      <div v-if="chartData">
+      <div v-if="chartDataAvax">
         <line-chart
-          :data="chartData"
+          :data="chartDataAvax"
           class="h-96"
         />
       </div>
     </CardBox>
+
+    <CardBox
+      title="Polygon"
+      :icon="mdiFinance"
+      :header-icon="mdiReload"
+      class="mb-6"
+      @header-icon-click="fillChartData"
+    >
+      <div v-if="chartDataMatic">
+        <line-chart
+          :data="chartDataMatic"
+          class="h-96"
+        />
+      </div>
+    </CardBox>
+
+    <CardBox
+      title="Fantom"
+      :icon="mdiFinance"
+      :header-icon="mdiReload"
+      class="mb-6"
+      @header-icon-click="fillChartData"
+    >
+      <div v-if="chartDataFtm">
+        <line-chart
+          :data="chartDataFtm"
+          class="h-96"
+        />
+      </div>
+    </CardBox>
+
+    <CardBox
+      title="Ethereum"
+      :icon="mdiFinance"
+      :header-icon="mdiReload"
+      class="mb-6"
+      @header-icon-click="fillChartData"
+    >
+      <div v-if="chartDataEth">
+        <line-chart
+          :data="chartDataEth"
+          class="h-96"
+        />
+      </div>
+    </CardBox>
+
   </SectionMain>
 </template>
