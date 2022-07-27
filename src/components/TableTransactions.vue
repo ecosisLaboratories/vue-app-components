@@ -9,6 +9,7 @@ import BaseLevel from '@/components/BaseLevel.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { resolveAssetName, getAssetData, numberWithCommas } from '@/manager'
 
 defineProps({
   checkable: Boolean
@@ -75,16 +76,6 @@ const checked = (isChecked, tx) => {
     <p>Is coming soon...</p>
   </CardBoxModal>
 
-  <!-- <CardBoxModal
-    v-model="isModalDangerActive"
-    large-title="Please confirm"
-    button="danger"
-    has-cancel
-  >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
-  </CardBoxModal> -->
-
   <div
     v-if="checkedRows.length"
     class="p-3 bg-gray-100/50 dark:bg-gray-800"
@@ -101,14 +92,11 @@ const checked = (isChecked, tx) => {
   <table>
     <thead>
       <tr>
-        <!-- <th v-if="checkable" /> -->
-        <!-- <th /> -->
         <th>Chain</th>
         <th>Time</th>
         <th>Asset</th>
         <th>Amount</th>
         <th>Receiver</th>
-        <!-- <th /> -->
       </tr>
     </thead>
     <tbody>
@@ -116,52 +104,21 @@ const checked = (isChecked, tx) => {
         v-for="tx in itemsPaginated"
         :key="tx.timestamp"
       >
-        <!-- <TableCheckboxCell
-          v-if="checkable"
-          @checked="checked($event, tx)"
-        /> -->
-        <!-- <td class="border-b-0 lg:w-6 before:hidden">
-          <UserAvatar
-            :username="tx.name"
-            class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
-          />
-        </td> -->
-        <td data-label="Chain">
-          {{ tx.chain }}
+        <td data-label="Chain" class="flex md:justify-center">
+          <img class="w-12 h-12" :src="getAssetData(tx.chain, tx.address)">
         </td>
         <td data-label="Time">
           {{ tx.timestamp }}
         </td>
         <td data-label="Asset">
-          {{ tx.asset }}
+          <img class="w-12 h-12" :src="tx.icon" :title="tx.asset">
         </td>
         <td data-label="Amount">
-          {{ tx.amount }}
+          {{ numberWithCommas((tx.amount / Math.pow(10, parseInt(tx.decimals))).toFixed(6)) }}
         </td>
-        <td data-label="Receiver">
+        <td data-label="Receiver" class="w-full truncate ...">
           {{ tx.receiver }}
         </td>
-        <!-- <td
-          data-label="Progress"
-          class="lg:w-32"
-        >
-          <progress
-            class="flex w-2/5 self-center lg:w-full"
-            max="100"
-            :value="tx.progress"
-          >
-            {{ tx.progress }}
-          </progress>
-        </td> -->
-        <!-- <td
-          data-label="Created"
-          class="lg:w-1 whitespace-nowrap"
-        >
-          <small
-            class="text-gray-500 dark:text-gray-400"
-            :title="tx.created"
-          >{{ tx.created }}</small>
-        </td> -->
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons
             type="justify-start lg:justify-end"
@@ -173,12 +130,6 @@ const checked = (isChecked, tx) => {
               small
               @click="isModalActive = true"
             />
-            <!-- <BaseButton
-              color="danger"
-              :icon="mdiTrashCan"
-              small
-              @click="isModalDangerActive = true"
-            /> -->
           </BaseButtons>
         </td>
       </tr>
