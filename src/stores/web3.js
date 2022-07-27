@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import Moralis from 'moralis'
 import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '../config'
-
-// axios get `https://raw.githubusercontent.com/AwesomeEcosystem/assets/master/blockchains/${chain}/assets/${assetAddress}/info.json`
+import { Asset, Transaction, resolveAssetName, getNativeAsset, getMarketPrice, chains } from '../manager'
 
 // Setup Moralis
 Moralis.start({
@@ -11,25 +10,19 @@ Moralis.start({
   serverUrl: MORALIS_SERVER_URL,
 })
 
-let user = Moralis.User.current() || null
+// Moralis.settings.setAPIRateLimit({
+//   anonymous:10,
+//   authenticated:20,
+//   windowMs:60000
+// })
 
-// Setup Config Handler
-const configAsset = (options) => {
-  if (options.decimals) {
-    return {
-      type: 'erc20',
-      amount: Moralis.Units.Token(options.amount, options.decimals),
-      receiver: options.receiver,
-      contractAddress: options.contractAddress,
-    }
-  }
-}
+let user = Moralis.User.current() || null
 
 const setConfig = (config) => {
   if (!config) {
     return undefined
   }
-  if (config.type === 'walletconnect') {
+  if (config.provider === 'walletconnect') {
     return {
       provider: 'walletconnect',
       mobileLinks: [
@@ -42,7 +35,7 @@ const setConfig = (config) => {
       ]
     }
   }
-  if (config.type === 'magiclink') {
+  if (config.provider === 'magiclink') {
     return {
       provider: 'magicLink',
       apiKey: MAGICLINK_API,
@@ -52,42 +45,6 @@ const setConfig = (config) => {
   }
 }
 
-class Transaction {
-  chain
-  timestamp
-  asset
-  amount
-  receiver
-  constructor(data) {
-    this.chain = data.chain
-    this.timestamp = data.timestamp
-    this.asset = data.asset || 'AVAX'
-    this.amount = data.amount
-    this.receiver = data.receiver
-  }
-}
-
-class Asset {
-  chain
-  asset
-  decimals
-  amount
-  constructor(data) {
-    chain: data.chain
-    asset: data.asset
-    decimals: data.decimals
-    amount: data.amount
-  }
-}
-
-const chains = [
-  'eth', 'avalanche', 'polygon', 'fantom'
-]
-
-const getMarketPrice = async () => {
-  const asset = 'AVAX'
-  return await axios.get(`https://min-api.cryptocompare.com/data/v2/histoday?fsym=${asset}&tsym=USD&limit=7&toTs=-1`)
-}
 // Setup Web 3 Store
 export const useWeb3Store = defineStore('web3', {
   state: () => ({
@@ -109,132 +66,129 @@ export const useWeb3Store = defineStore('web3', {
     },
     async getBalances(chain) {
       try {
-        let allBalances = []
         let nativeBalances = []
         let tokenBalances = []
 
         if (!chain) {
           chains.forEach(async (chain, i) => {
 
-            let nativeBalance = await Moralis.Web3API.account.getNativeBalance({ chain })
-            let tokenBalance = await Moralis.Web3API.account.getTokenBalances({ chain })
+            // TODO Facelift ugly Moralis X-Rate Trick
+            setTimeout(async () => {
 
-            nativeBalances = nativeBalances.concat(nativeBalance)
-            tokenBalances = tokenBalances.concat(tokenBalance)
+              let nativeBalance = await Moralis.Web3API.account.getNativeBalance({ chain })
+
+              const nativeAsset = new Asset({
+                chain: (chain === 'eth') ? 'ethereum' : chain,
+                balance: nativeBalance.balance
+              })
+
+              await nativeAsset.fetchData()
+              nativeBalances.push(nativeAsset)
+
+            }, 1500)
+
+            setTimeout(async () => {
+
+              let tokenBalance = await Moralis.Web3API.account.getTokenBalances({ chain })
+
+              tokenBalance.forEach(async (item, i) => {
+                const token = new Asset({
+                  chain: (chain === 'eth') ? 'ethereum' : chain,
+                  address: item.token_address,
+                  balance: item.balance
+                })
+
+                await token.fetchData()
+                tokenBalances.push(token)
+
+              })
+            }, 1500)
           })
+
+          setTimeout(() => {
+            this.balances = tokenBalances.concat(nativeBalances)
+          }, 3000)
         }
-        const newBalanceListNative = []
-        const newBalanceListToken = []
-        
-        nativeBalances.forEach((item, i) => {
-          const tx = new Asset({
-            chain,
-            timestamp: item.block_timestamp,
-            receiver: item.to_address,
-            amount: item.value,
-          })
-          newBalanceListNative.push(tx)
-        });
-
-        tokenBalances.forEach((item, i) => {
-          const tx = new Asset({
-            chain,
-            asset: item.name,
-            amount: item.value,
-          })
-          newTransactionListToken.push(tx)
-        });
-
-        const fullList = newBalanceListNative.concat(newBalanceListToken)
-        // fullList.sort((a, b) => {
-        //   return new Date(b.timestamp) - new Date(a.timestamp)
-        // })
-
-        this.balances = fullList
+        // const newBalanceListNative = []
+        // const newBalanceListToken = []
+        //
+        // this.balances = fullList
       } catch (e) {
         throw new Error(e.message)
       }
     },
     async getTransactions(chain) {
       try {
-        let allTransactions = []
         let transactions = []
         let tokenTranfers = []
 
         if (!chain) {
           chains.forEach(async (chain, i) => {
 
-            let transaction = await Moralis.Web3API.account.getTransactions({ chain })
-            let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain })
+            // TODO Facelift ugly Moralis X-Rate Trick
+            setTimeout(async () => {
+              let transaction = await Moralis.Web3API.account.getTransactions({ chain })
 
-            transactions = transactions.concat(transaction.result)
-            tokenTranfers = tokenTranfers.concat(transfer.result)
-          });
+              transaction.result.forEach((item, i) => {
+                const tx = new Transaction({
+                  chain,
+                  id: item.hash,
+                  timestamp: item.block_timestamp,
+                  receiver: item.to_address,
+                  amount: item.value,
+                })
+
+                transactions.push(tx)
+              })
+            }, 1500)
+
+            setTimeout(async () => {
+              let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain })
+
+              transfer.result.forEach((item, i) => {
+                const tx = new Transaction({
+                  chain,
+                  id: item.hash,
+                  timestamp: item.block_timestamp,
+                  receiver: item.to_address,
+                  asset: item.address,
+                  amount: item.value,
+                })
+
+                tokenTranfers.push(tx)
+              })
+            }, 1500)
+          })
+
+          setTimeout(() => {
+            this.transactions = transactions.concat(tokenTranfers)
+          }, 3000)
         }
-
-        // if (chain === 'eth') {
-        //   chain = 'ethereum'
-        // }
-        // if (chain === 'avalanche') {
-        //   chain = 'avalanchec'
-        // }
-
-        const newTransactionListNative = []
-        const newTransactionListToken = []
-
-        transactions.forEach((item, i) => {
-          const tx = new Transaction({
-            chain,
-            timestamp: item.block_timestamp,
-            receiver: item.to_address,
-            amount: item.value,
-          })
-          newTransactionListNative.push(tx)
-        });
-
-        tokenTranfers.forEach((item, i) => {
-          const tx = new Transaction({
-            chain,
-            timestamp: item.block_timestamp,
-            receiver: item.to_address,
-            asset: item.address,
-            amount: item.value,
-          })
-          newTransactionListToken.push(tx)
-        });
-
-        const fullList = newTransactionListNative.concat(newTransactionListToken)
-        fullList.sort((a, b) => {
-          return new Date(b.timestamp) - new Date(a.timestamp)
-        })
-
-        this.transactions = fullList
       } catch (e) {
-
+        throw new Error(e.message)
       }
     },
     async sendAsset(options) {
       try {
-        return await Moralis.transfer(configAsset(options))
+        // this.balances[options.name].sendAsset(options.chain, options.amount)
       } catch (e) {
         throw new Error(e.message)
       }
     },
     async receiveAsset(options) {
       try {
-
+        //
       } catch (e) {
         throw new Error(e.message)
       }
     },
     async swapAsset(options) {
       try {
-
+        //
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    getMarketPrice,
     async disconnect() {
       Moralis.User.logOut()
     }
