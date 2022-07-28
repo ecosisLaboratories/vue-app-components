@@ -23,7 +23,11 @@ defineProps({
 
 const web3Store = useWeb3Store()
 
-const items = computed(() => web3Store.balances)
+const items = computed(() => web3Store.balances.sort((a, b) => {
+  const x = numberWithCommas((a.balance / Math.pow(10, parseInt(a.decimals))).toFixed(9))
+  const y = numberWithCommas((b.balance / Math.pow(10, parseInt(b.decimals))).toFixed(9))
+  return y - x
+}))
 
 const isModalActive = ref(false)
 
@@ -144,7 +148,7 @@ const formatValue = (value) => {
           <!-- {{ tx.symbol }} -->
         </td>
         <td data-label="Amount" class="flex md:justify-end">
-          {{ numberWithCommas((tx.balance / Math.pow(10, parseInt(tx.decimals))).toFixed(6)) }}
+          {{ numberWithCommas((tx.balance / Math.pow(10, parseInt(tx.decimals))).toFixed(9)) }}
         </td>
         <!-- <td
           data-label="Progress"
