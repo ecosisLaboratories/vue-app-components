@@ -153,6 +153,7 @@ export const useWeb3Store = defineStore('web3', {
                   receiver: item.to_address,
                   asset: item.address,
                   amount: item.value,
+                  decimals: item.decimals
                 })
 
                 tokenTranfers.push(tx)
