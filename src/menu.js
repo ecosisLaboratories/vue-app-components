@@ -29,23 +29,40 @@ import {
 } from '@mdi/js'
 
 export default [
-  'Hub',
+  'Eco',
   [
     {
       to: '/dashboard',
       icon: mdiDesktopMac,
-      label: 'Dashboard'
+      label: 'Nomics'
     },
-    // {
-    //   to: '/dashboard',
-    //   icon: mdiViewStream,
-    //   label: 'Feed'
-    // },
-    // {
-    //   to: '/dashboard',
-    //   icon: mdiEarth,
-    //   label: 'Explore'
-    // }
+    {
+      icon: mdiViewStream,
+      label: 'Verse',
+      menu: [
+        {
+          // to: '/dashboard',
+          icon: mdiStore,
+          label: 'Market'
+        },
+        {
+          label: 'Organizations',
+          icon: mdiLayersTriple,
+          menu: [
+            {
+              // to: '/dashboard',
+              icon: mdiTools,
+              label: 'Create'
+            },
+            {
+              // to: '/dashboard',
+              icon: mdiStore,
+              label: 'Explore'
+            },
+          ]
+        }
+      ]
+    },
   ],
   'User',
   [
@@ -55,52 +72,52 @@ export default [
       label: 'Profile'
     },
     {
-      to: '/wallet',
+      to: '/wallets',
       icon: mdiWallet,
-      label: 'Wallet'
+      label: 'Wallets'
     },
     {
       label: 'Apps',
       icon: mdiLayersTriple,
       menu: [
         {
-          label: 'Coming Soon'
+          to: '/apps/finance',
+          label: 'Finance',
         },
       ]
     }
   ],
-  // 'Governance',
-  // [
-  //   {
-  //     to: '/dashboard',
-  //     icon: mdiVote,
-  //     label: 'Vote'
-  //   },
-  //   {
-  //     label: 'Proposal',
-  //     icon: mdiLayersTriple,
-  //     menu: [
-  //       {
-  //         label: 'Create'
-  //       },
-  //       {
-  //         label: 'Recent'
-  //       }
-  //     ]
-  //   }
-  // ],
-  'Business',
+  'Governance',
   [
     {
-      // to: '/dashboard',
-      icon: mdiTools,
-      label: 'Create'
+      label: 'Delegates',
+      icon: mdiLayersTriple,
+      menu: [
+        {
+          label: 'Register',
+          icon: mdiVote,
+        },
+        {
+          to: '/dashboard',
+          icon: mdiVote,
+          label: 'Vote'
+        },
+      ]
     },
     {
-      // to: '/dashboard',,
-      icon: mdiStore,
-      label: 'Explore'
-    },
+      label: 'Proposal',
+      icon: mdiLayersTriple,
+      menu: [
+        {
+          label: 'Create',
+          icon: mdiVote,
+        },
+        {
+          label: 'Recent',
+          icon: mdiVote,
+        }
+      ]
+    }
   ],
   'About',
   [

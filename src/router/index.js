@@ -27,9 +27,9 @@ const routes = [
     meta: {
       title: 'Wallet'
     },
-    path: '/wallet',
-    name: 'wallet',
-    component: () => import('@/views/Wallet.vue')
+    path: '/wallets',
+    name: 'wallets',
+    component: () => import('@/views/Wallets.vue')
   },
   {
     meta: {
@@ -41,19 +41,27 @@ const routes = [
   },
   {
     meta: {
-      title: 'Forms'
-    },
-    path: '/forms',
-    name: 'forms',
-    component: () => import('@/views/Forms.vue')
-  },
-  {
-    meta: {
       title: 'Profile'
     },
     path: '/profile',
     name: 'profile',
     component: () => import('@/views/Profile.vue')
+  },
+  {
+    meta: {
+      title: 'Finance'
+    },
+    path: '/apps/finance',
+    name: 'finance',
+    component: () => import('@/views/apps/Finance.vue')
+  },
+  {
+    meta: {
+      title: 'Forms'
+    },
+    path: '/forms',
+    name: 'forms',
+    component: () => import('@/views/Forms.vue')
   },
   {
     meta: {
