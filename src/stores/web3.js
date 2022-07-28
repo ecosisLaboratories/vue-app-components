@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import Moralis from 'moralis'
-import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API } from '../config'
-import { Asset, Transaction, resolveAssetName, getNativeAsset, getMarketPrice, chains } from '../manager'
+import { MORALIS_API, MORALIS_SERVER_URL, MAGICLINK_API, chains } from '../config'
+import {
+  Asset,
+  Transaction,
+  resolveAssetName,
+  getAssetData,
+  getChainList,
+  getMarketPrice
+} from '../manager'
 
 // Setup Moralis
 Moralis.start({
@@ -64,18 +71,18 @@ export const useWeb3Store = defineStore('web3', {
         throw new Error(e.message)
       }
     },
-    async getBalances(chain) {
+    async getBalances() {
       try {
         let nativeBalances = []
         let tokenBalances = []
 
-        if (!chain) {
+        if (true) { // Chain Specify Option
           chains.forEach(async (chain, i) => {
 
             // TODO Facelift ugly Moralis X-Rate Trick
             setTimeout(async () => {
 
-              let nativeBalance = await Moralis.Web3API.account.getNativeBalance({ chain })
+              let nativeBalance = await Moralis.Web3API.account.getNativeBalance({ chain: (chain === 'ethereum') ? 'eth' : chain })
 
               const nativeAsset = new Asset({
                 chain: (chain === 'eth') ? 'ethereum' : chain,
@@ -89,7 +96,7 @@ export const useWeb3Store = defineStore('web3', {
 
             setTimeout(async () => {
 
-              let tokenBalance = await Moralis.Web3API.account.getTokenBalances({ chain })
+              let tokenBalance = await Moralis.Web3API.account.getTokenBalances({ chain: (chain === 'ethereum') ? 'eth' : chain })
 
               tokenBalance.forEach(async (item, i) => {
                 const token = new Asset({
@@ -109,26 +116,29 @@ export const useWeb3Store = defineStore('web3', {
             this.balances = tokenBalances.concat(nativeBalances)
           }, 3000)
         }
-        // const newBalanceListNative = []
-        // const newBalanceListToken = []
-        //
-        // this.balances = fullList
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async getTransactions(chain) {
+    async getTransactions() {
       try {
         let transactions = []
         let tokenTranfers = []
 
-        if (!chain) {
+        const chainList = await getChainList(chains)
+
+        if (true) { // Chain Specify Option
           chains.forEach(async (chain, i) => {
+
+            // chain = await getAssetData(chain.name)
+            console.log(chain);
 
             // TODO Facelift ugly Moralis X-Rate Trick
             setTimeout(async () => {
-              let transaction = await Moralis.Web3API.account.getTransactions({ chain })
+              let transaction = await Moralis.Web3API.account.getTransactions({ chain: (chain === 'ethereum') ? 'eth' : chain })
 
+              chain = chainList.find(i => i.name.toLowerCase().startsWith(chain))
+              console.log(chain)
               transaction.result.forEach((item, i) => {
                 const tx = new Transaction({
                   chain,
@@ -137,13 +147,13 @@ export const useWeb3Store = defineStore('web3', {
                   receiver: item.to_address,
                   amount: item.value,
                 })
-
+                // console.log(tx);
                 transactions.push(tx)
               })
             }, 1500)
 
             setTimeout(async () => {
-              let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain })
+              let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain: (chain === 'ethereum') ? 'eth' : chain })
 
               transfer.result.forEach((item, i) => {
                 const tx = new Transaction({
