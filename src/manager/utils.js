@@ -84,6 +84,18 @@ export async function getAssetData(chain, address) {
   }
 }
 
+export async function getChainList(chains) {
+  const list = []
+
+  chains.forEach(async (item, i) => {
+    const res = await getAssetData(item)
+
+    list.push(res)
+  })
+
+  return list
+}
+
 export async function getAssetDecimals(chain, address) {
   const res = await getAssetData(chain, address)
   return res.decimals

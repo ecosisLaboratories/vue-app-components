@@ -15,16 +15,13 @@ export const {
   setProviderConfig,
   getNativeAsset,
   resolveAssetName,
+  getChainList,
   getMarketPrice,
   getAssetData,
   getAssetIcon,
   getAssetDecimals,
   numberWithCommas
 } = utils
-
-export const chains = [
-  'eth', 'avalanche', 'polygon', 'fantom'
-]
 
 export class Chain {
   name
@@ -50,7 +47,7 @@ export class Transaction {
     this.id = data.id
     this.chain = data.chain
     this.timestamp = data.timestamp
-    this.asset = data.asset || getNativeAsset(data.chain)
+    this.asset = data.asset
     this.amount = data.amount
     this.decimals = data.decimals
     this.receiver = data.receiver
