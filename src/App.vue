@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref, inject } from 'vue'
+import { computed, ref, inject, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useMainStore } from '@/stores/main.js'
+import { useWeb3Store } from '@/stores/web3.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import menu from '@/menu.js'
 import NavBar from '@/components/NavBar.vue'
@@ -12,6 +12,9 @@ import CardBoxModal from '@/components/CardBoxModal.vue'
 
 // Setup Layout
 const layoutStore = useLayoutStore()
+const web3Store = useWeb3Store()
+
+const assets = ref([])
 
 const isAsideLgActive = computed(() => layoutStore.isAsideLgActive)
 const isAsideMobileExpanded = computed(() => layoutStore.isAsideMobileExpanded)
@@ -45,7 +48,12 @@ emitter.on('error', (e) => { // TODO Facelift
   isErrorExeption.value = true
 })
 
-// const successMessage = ref('')
+onMounted(async () => {
+  setTimeout(() => {
+    assets.value = web3Store.balances
+  }, 10000)
+})
+
 </script>
 
 <template>
