@@ -84,8 +84,22 @@ export async function getAssetData(chain, address) {
   }
 }
 
+export async function getAssetDecimals(chain, address) {
+  const res = await getAssetData(chain, address)
+  return res.decimals
+}
+
+export async function getAssetIcon(chain, address) {
+  const res = await getAssetData(chain, address)
+  return res.icon
+}
+
 export function numberWithCommas(x) {
-    var parts = x.toString().split(".");
+    let parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
+}
+
+export function parseDecimals() {
+  //
 }

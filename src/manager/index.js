@@ -17,6 +17,8 @@ export const {
   resolveAssetName,
   getMarketPrice,
   getAssetData,
+  getAssetIcon,
+  getAssetDecimals,
   numberWithCommas
 } = utils
 
@@ -24,20 +26,35 @@ export const chains = [
   'eth', 'avalanche', 'polygon', 'fantom'
 ]
 
+export class Chain {
+  name
+  symbol
+  icon
+  explorerURL
+  webite
+  constructor() {
+
+  }
+}
+
 export class Transaction {
   id
   chain
   timestamp
   asset
   amount
+  decimals
   receiver
+  contract
   constructor(data) {
     this.id = data.id
     this.chain = data.chain
     this.timestamp = data.timestamp
     this.asset = data.asset || getNativeAsset(data.chain)
     this.amount = data.amount
+    this.decimals = data.decimals
     this.receiver = data.receiver
+    this.contract = data.contract
   }
 }
 
@@ -109,7 +126,7 @@ export class Wallet {
   transactions = []
   avatar = ''
 
-  constructor() {
+  constructor(provider) {
 
   }
 
@@ -250,5 +267,11 @@ export class Wallet {
 
   async disconnect() {
     Moralis.User.logOut()
+  }
+}
+
+export default class Authic {
+  constructor() {
+    //
   }
 }
