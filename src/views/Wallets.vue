@@ -212,8 +212,8 @@ onMounted(async () => {
               <CardBox
                 title="Assets"
                 :icon="mdiViewModule"
-                class="mb-6"
-                @header-icon-click=""
+                :headerIcon="mdiReload"
+                @header-icon-click="web3Store.getBalances"
               >
                 <TableAssets />
             </CardBox>
@@ -222,6 +222,8 @@ onMounted(async () => {
           <div class="w-full md:w-2/3">
             <CardBox
               :icon="mdiMonitorCellphone"
+              :headerIcon="mdiReload"
+              @header-icon-click="web3Store.getTransactions"
               title="Transactions"
               has-table
               >
