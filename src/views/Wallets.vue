@@ -40,7 +40,7 @@ import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
-const titleStack = ref(['User', 'Wallet'])
+const titleStack = ref(['User', 'Wallets'])
 
 const copied = ref(false)
 
