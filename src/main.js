@@ -8,12 +8,19 @@ import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { darkModeKey, styleKey } from '@/config.js'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHatWizard } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import Vue3TouchEvents from "vue3-touch-events"
 import vClickOutside from "click-outside-vue3"
 import mitt from 'mitt'
 import copyText from "@meforma/vue-copy-to-clipboard";
+import PayPalButton from './paypal'
 
 import './css/main.css'
+
+library.add(faHatWizard)
 
 /* Init Pinia */
 const pinia = createPinia()
@@ -28,6 +35,8 @@ createApp(App)
   .use(Vue3TouchEvents)
   .use(vClickOutside)
   .use(copyText)
+  .component('PayPalButton', PayPalButton)
+  .component('FontAwesomeIcon', FontAwesomeIcon)
   .provide('emitter', emitter)
   .mount('#app')
 

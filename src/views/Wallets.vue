@@ -18,6 +18,8 @@ import {
   mdiSend,
   mdiCallReceived,
   mdiSwapHorizontalBold,
+  mdiArrowTopRightBoldBox,
+  mdiInformation,
 } from '@mdi/js'
 import QrcodeVue from 'qrcode.vue'
 import * as chartConfig from '@/components/Charts/chart.config.js'
@@ -39,8 +41,9 @@ import NotificationBar from '@/components/NotificationBar.vue'
 import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
+import BuyAsset from '@/components/Wallet/BuyAsset.vue'
 
-const titleStack = ref(['User', 'Wallets'])
+const titleStack = ref(['Authic', 'Wallet'])
 
 const copied = ref(false)
 
@@ -220,13 +223,14 @@ onMounted(async () => {
           </div>
 
           <div class="w-full md:w-2/3">
+            <BuyAsset/>
             <CardBox
               :icon="mdiMonitorCellphone"
               :headerIcon="mdiReload"
               @header-icon-click="web3Store.getTransactions"
               title="Transactions"
               has-table
-              >
+            >
               <TableTransactions />
             </CardBox>
           </div>

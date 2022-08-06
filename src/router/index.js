@@ -25,6 +25,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'Market'
+    },
+    path: '/verse/market',
+    name: 'market',
+    component: () => import('@/views/verse/Market.vue')
+  },
+  {
+    meta: {
       title: 'Wallet'
     },
     path: '/wallets',

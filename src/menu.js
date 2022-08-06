@@ -25,7 +25,8 @@ import {
   mdiViewList,
   mdiTelevisionGuide,
   mdiResponsive,
-  mdiPalette
+  mdiPalette,
+  mdiReceiptTextPlus,
 } from '@mdi/js'
 
 export default [
@@ -36,35 +37,71 @@ export default [
       icon: mdiDesktopMac,
       label: 'Nomics'
     },
+    // {
+    //   icon: mdiEarth,
+    //   label: 'Verse',
+    //   menu: [
+    //     {
+    //       // to: '/dashboard',
+    //       icon: mdiStore,
+    //       to: '/verse/market',
+    //       label: 'Map'
+    //     },
+    //     {
+    //       label: 'Organizations',
+    //       icon: mdiAccountGroup,
+    //       menu: [
+    //         {
+    //           // to: '/dashboard',
+    //           icon: mdiTools,
+    //           label: 'Create'
+    //         },
+    //         {
+    //           // to: '/dashboard',
+    //           icon: mdiStore,
+    //           label: 'Explore'
+    //         },
+    //       ]
+    //     }
+    //   ]
+    // },
     {
+      label: 'Governance',
       icon: mdiViewStream,
-      label: 'Verse',
       menu: [
         {
-          // to: '/dashboard',
-          icon: mdiStore,
-          label: 'Market'
-        },
-        {
-          label: 'Organizations',
+          label: 'Delegates',
           icon: mdiLayersTriple,
           menu: [
             {
-              // to: '/dashboard',
-              icon: mdiTools,
-              label: 'Create'
+              label: 'Register',
+              icon: mdiVote,
             },
             {
-              // to: '/dashboard',
-              icon: mdiStore,
-              label: 'Explore'
+              to: '/dashboard',
+              icon: mdiVote,
+              label: 'Vote'
             },
           ]
+        },
+        {
+          label: 'Proposal',
+          icon: mdiReceiptTextPlus,
+          menu: [
+            {
+              label: 'Create',
+              icon: mdiVote,
+            },
+            {
+              label: 'Recent',
+              icon: mdiVote,
+            }
+          ]
         }
-      ]
-    },
+      ],
+    }
   ],
-  'User',
+  'Authic',
   [
     {
       to: '/profile',
@@ -74,7 +111,7 @@ export default [
     {
       to: '/wallets',
       icon: mdiWallet,
-      label: 'Wallets'
+      label: 'Wallet'
     },
     {
       label: 'Apps',
@@ -82,42 +119,10 @@ export default [
       menu: [
         {
           to: '/apps/finance',
-          label: 'Finance',
-        },
-      ]
-    }
-  ],
-  'Governance',
-  [
-    {
-      label: 'Delegates',
-      icon: mdiLayersTriple,
-      menu: [
-        {
-          label: 'Register',
-          icon: mdiVote,
-        },
-        {
-          to: '/dashboard',
-          icon: mdiVote,
-          label: 'Vote'
+          label: 'Cunoro.Finance',
         },
       ]
     },
-    {
-      label: 'Proposal',
-      icon: mdiLayersTriple,
-      menu: [
-        {
-          label: 'Create',
-          icon: mdiVote,
-        },
-        {
-          label: 'Recent',
-          icon: mdiVote,
-        }
-      ]
-    }
   ],
   'About',
   [

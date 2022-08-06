@@ -34,13 +34,13 @@ import CardBox from '@/components/CardBox.vue'
 import FormField from '@/components/FormField.vue'
 import FormControl from '@/components/FormControl.vue'
 import TableTransactions from '@/components/TableTransactions.vue'
-import TableAssets from '@/components/TableAssets.vue'
+import TableBonds from '@/components/TableBonds.vue'
 import NotificationBar from '@/components/NotificationBar.vue'
 import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
-const titleStack = ref(['User', 'Wallets'])
+const titleStack = ref(['Apps', 'Finance'])
 
 const copied = ref(false)
 
@@ -63,6 +63,8 @@ const web3Store = useWeb3Store()
 const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
 
 const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
+
+const bonds = computed(() => web3Store.balances)
 
 onMounted(async () => {
   await web3Store.getBalances()
@@ -132,52 +134,50 @@ onMounted(async () => {
     </CardBoxModal>
 
     <div class="mb-6">
-        <div class="w-full flex flex-wrap justify-center md:pr-4">
-          <CardBox
-            title="Dashboard"
-            :icon="mdiQrcode"
-            :header-icon="(!copied) ? mdiContentCopy : mdiCheckBold"
-            class="w-full md:w-1/2 mb-6"
-            @header-icon-click="() => {
-              $copyText(web3Store.user.id)
-              copied = true
-              setTimeout(() => {
-                copied = false
-                }, 10000)
-              }"
-              >
-              <!-- TODO as Component -->
-              <div class="flex flex-wrap justify-center items-center">
+      <div class="w-full flex flex-wrap justify-center md:pr-4">
+        <CardBox
+          title="Dashboard"
+          :icon="mdiQrcode"
+          :header-icon="(!copied) ? mdiContentCopy : mdiCheckBold"
+          class="w-full md:w-1/2 mb-6"
+          @header-icon-click="() => {
+            $copyText(web3Store.user.id)
+            copied = true
+            setTimeout(() => {
+              copied = false
+              }, 10000)
+            }"
+          >
+          <!-- TODO as Component -->
+          <div class="flex flex-wrap justify-center items-center">
 
-                TLV
-                Treasury Balance
-                Backing
-                Price
+            TLV
+            Treasury Balance
+            Backing
+            Price
 
-              </div>
-            </CardBox>
+          </div>
+        </CardBox>
 
-            <CardBox
-              title="Stake"
-              :icon="mdiViewModule"
-              class="w-full md:w-1/2 mb-6"
-              @header-icon-click=""
-            >
-              <div class="">
+        <CardBox
+          title="Stake"
+          :icon="mdiViewModule"
+          class="w-full md:w-1/2 mb-6"
+          @header-icon-click=""
+        >
+          <div class="">
 
-              </div>
-            </CardBox>
-            <CardBox
-              title="Bond"
-              :icon="mdiViewModule"
-              class="w-full md:w-1/2 mb-6"
-              @header-icon-click=""
-            >
-              <div class="">
-
-              </div>
-          </CardBox>
-        </div>
+          </div>
+        </CardBox>
+        <CardBox
+          title="Bonds"
+          :icon="mdiViewModule"
+          :headerIcon="mdiReload"
+          @header-icon-click="bonds"
+        >
+          <TableBonds />
+        </CardBox>
       </div>
+    </div>
   </SectionMain>
 </template>

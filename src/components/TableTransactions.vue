@@ -117,18 +117,18 @@ onMounted(async () => {
       >
         <td data-label="Chain" class="flex md:justify-center">
           <a :href="tx.chain.website" target="_blank">
-            <img class="w-12 h-12" :src="tx.chain.icon" :title="tx.asset">
+            <img class="w-8 h-8" :src="tx.chain.icon" :title="tx.asset">
           </a>
         </td>
         <td data-label="Time" class="md:w-2/6">
           {{ new Date(tx.timestamp).toLocaleString() }}
         </td>
         <td data-label="Asset">
-          <a :href="tx.chain.website" target="_blank">
-            <img class="w-12 h-12" :src="tx.chain.icon" :title="tx.asset">
+          <a :href="tx.chain.website" target="_blank" class="flex md:justify-center">
+            <img class="w-8 h-8" :src="(tx.asset) ? tx.asset.icon : tx.chain.icon" :title="tx.asset">
           </a>
         </td>
-        <td data-label="Amount">
+        <td data-label="Amount" class="flex md:justify-end">
           {{ numberWithCommas((tx.amount / Math.pow(10, tx.chain.decimals)).toFixed(9)) }}
         </td>
         <td data-label="Receiver" class="w-full truncate ...">

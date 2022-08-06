@@ -26,7 +26,7 @@ import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
-const titleStack = ref(['Hub', 'Dashboard'])
+const titleStack = ref(['Eco', 'Nomics'])
 
 const chartDataAvax = ref(null)
 const chartDataMatic = ref(null)
@@ -55,39 +55,6 @@ const fillChartData = async () => {
       ],
     }
 
-    let ftm = {
-      datasets: [
-        {
-          borderColor: '#1969FF',
-          pointBackgroundColor: '#1969FF',
-          data: [],
-          tension: 0.5,
-        },
-      ],
-    }
-
-    let matic = {
-      datasets: [
-        {
-          borderColor: '#8247e5',
-          pointBackgroundColor: '#8247e5',
-          data: [],
-          tension: 0.5,
-        },
-      ],
-    }
-
-    let eth = {
-      datasets: [
-        {
-          borderColor: '#828385',
-          pointBackgroundColor: '#828385',
-          data: [],
-          tension: 0.5,
-        },
-      ],
-    }
-
     const avaxPriceHistory = await web3Store.getMarketPrice('AVAX')
     avaxPriceHistory.data.Data.Data.forEach((item, i) => {
       avax.datasets[0].data.push({
@@ -95,35 +62,7 @@ const fillChartData = async () => {
         y: item.close
       })
     })
-
-    const ftmPriceHistory = await web3Store.getMarketPrice('FTM')
-    ftmPriceHistory.data.Data.Data.forEach((item, i) => {
-      ftm.datasets[0].data.push({
-        x: new Date(item.time).toString(),
-        y: item.close
-      })
-    })
-
-    const maticPriceHistory = await web3Store.getMarketPrice('MATIC')
-    maticPriceHistory.data.Data.Data.forEach((item, i) => {
-      matic.datasets[0].data.push({
-        x: new Date(item.time).toString(),
-        y: item.close
-      })
-    })
-
-    const ethereumPriceHistory = await web3Store.getMarketPrice('ETH')
-    ethereumPriceHistory.data.Data.Data.forEach((item, i) => {
-      eth.datasets[0].data.push({
-        x: new Date(item.time).toString(),
-        y: item.close
-      })
-    })
-
     chartDataAvax.value = avax
-    chartDataMatic.value = ftm
-    chartDataFtm.value = matic
-    chartDataEth.value = eth
   } catch (e) {
     console.log(e)
   }
@@ -138,100 +77,72 @@ onMounted(async () => {
 <template>
   <SectionTitleBar :title-stack="titleStack" />
   <SectionMain>
-    <!-- <NotificationBar
-      color="info"
+    <NotificationBar
+      color="warning"
       :icon="mdiGithub"
     >
-      Please star this project on
       <a
-        href="https://github.com/justboil/admin-one-vue-tailwind"
+        href="https://ecosis.network/nomics"
         class="underline"
         target="_blank"
-      >GitHub</a>
+      >
+        Nomics
+      </a>
+      Will be released Q4 2022
       <template #right>
         <BaseButton
           href="https://github.com/justboil/admin-one-vue-tailwind"
           :icon="mdiGithub"
-          label="GitHub"
           target="_blank"
           small
         />
       </template>
-    </NotificationBar> -->
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
-      <!-- <CardBoxClient
-        v-for="client in clientBarItems"
-        :key="client.id"
-        :name="client.name"
-        :login="client.login"
-        :progress="client.progress"
-      /> -->
-    </div>
-
+    </NotificationBar>
     <SectionTitleBarSub
       :icon="mdiChartPie"
-      title="Market Overview"
+      title="Overview"
     />
 
-    <CardBox
-      :title="`Avalanche`"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartDataAvax">
-        <line-chart
+    <div class="flex flex-wrap justify-center items-center">
+      <CardBox
+      title="Dashboard"
+      :icon="mdiQrcode"
+      :header-icon="(!copied) ? mdiContentCopy : mdiCheckBold"
+      class="w-full md:w-1/2 mb-6"
+      @header-icon-click="() => {
+        $copyText(web3Store.user.id)
+        copied = true
+        setTimeout(() => {
+          copied = false
+          }, 10000)
+          }"
+          >
+          <!-- TODO as Component -->
+          <div class="flex flex-wrap justify-center items-center">
+
+            TLV
+            Treasury Balance
+            Backing
+            Price
+
+          </div>
+        </CardBox>
+
+        <CardBox
+        :title="`Avalanche`"
+        :icon="mdiFinance"
+        :header-icon="mdiReload"
+        class="w-full md:w-1/2 mb-6"
+        @header-icon-click="fillChartData"
+        >
+        <div v-if="chartDataAvax">
+          <line-chart
           :data="chartDataAvax"
           class="h-96"
-        />
-      </div>
-    </CardBox>
-
-    <CardBox
-      title="Polygon"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartDataMatic">
-        <line-chart
-          :data="chartDataMatic"
-          class="h-96"
-        />
-      </div>
-    </CardBox>
-
-    <CardBox
-      title="Fantom"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartDataFtm">
-        <line-chart
-          :data="chartDataFtm"
-          class="h-96"
-        />
-      </div>
-    </CardBox>
-
-    <CardBox
-      title="Ethereum"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartDataEth">
-        <line-chart
-          :data="chartDataEth"
-          class="h-96"
-        />
-      </div>
-    </CardBox>
+          />
+        </div>
+      </CardBox>
+    </div>
 
   </SectionMain>
 </template>

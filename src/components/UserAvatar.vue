@@ -13,6 +13,7 @@ const props = defineProps({
   }
 })
 
+// TODO Big Smile Avatar Customizer
 const web3Store = useWeb3Store()
 const avatar = computed(() => web3Store.user && web3Store.user.id
   ? `https://avatars.dicebear.com/api/jdenticon/${web3Store.user.id}.svg`

@@ -92,7 +92,7 @@ export const useWeb3Store = defineStore('web3', {
               await nativeAsset.fetchData()
               nativeBalances.push(nativeAsset)
 
-            }, 1500)
+            }, 700)
 
             setTimeout(async () => {
 
@@ -109,12 +109,12 @@ export const useWeb3Store = defineStore('web3', {
                 tokenBalances.push(token)
 
               })
-            }, 1500)
+            }, 700)
           })
 
           setTimeout(() => {
             this.balances = tokenBalances.concat(nativeBalances)
-          }, 3000)
+          }, 1200)
         }
       } catch (e) {
         throw new Error(e.message)
@@ -130,15 +130,12 @@ export const useWeb3Store = defineStore('web3', {
         if (true) { // Chain Specify Option
           chains.forEach(async (chain, i) => {
 
-            // chain = await getAssetData(chain.name)
-            console.log(chain);
-
             // TODO Facelift ugly Moralis X-Rate Trick
             setTimeout(async () => {
               let transaction = await Moralis.Web3API.account.getTransactions({ chain: (chain === 'ethereum') ? 'eth' : chain })
 
               chain = chainList.find(i => i.name.toLowerCase().startsWith(chain))
-              console.log(chain)
+
               transaction.result.forEach((item, i) => {
                 const tx = new Transaction({
                   chain,
@@ -150,7 +147,7 @@ export const useWeb3Store = defineStore('web3', {
                 // console.log(tx);
                 transactions.push(tx)
               })
-            }, 1500)
+            }, 700)
 
             setTimeout(async () => {
               let transfer = await Moralis.Web3API.account.getTokenTransfers({ chain: (chain === 'ethereum') ? 'eth' : chain })
@@ -161,19 +158,19 @@ export const useWeb3Store = defineStore('web3', {
                   id: item.hash,
                   timestamp: item.block_timestamp,
                   receiver: item.to_address,
-                  asset: item.address,
+                  asset: this.balances.find(b => b.id === item.address),
                   amount: item.value,
                   decimals: item.decimals
                 })
 
                 tokenTranfers.push(tx)
               })
-            }, 1500)
+            }, 700)
           })
 
           setTimeout(() => {
             this.transactions = transactions.concat(tokenTranfers)
-          }, 3000)
+          }, 1200)
         }
       } catch (e) {
         throw new Error(e.message)
@@ -181,7 +178,7 @@ export const useWeb3Store = defineStore('web3', {
     },
     async sendAsset(options) {
       try {
-        // this.balances[options.name].sendAsset(options.chain, options.amount)
+        // this.balances[options.assetName].sendAsset(options.symbol, options.amount)
       } catch (e) {
         throw new Error(e.message)
       }
