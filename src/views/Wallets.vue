@@ -162,15 +162,12 @@ onMounted(async () => {
                     @click="() => {
                       $copyText(web3Store.user.id)
                       copied = true
-                      setInterval(() => {
-                        copied = false
-                        }, 10000)
-                        }"
-                        color="white"
-                        :label="web3Store.user.id"
-                        :icon="(!copied) ? mdiContentCopy : mdiCheckBold"
-                      />
-                    </BaseButtons>
+                    }"
+                    color="white"
+                    :label="web3Store.user.id"
+                    :icon="(!copied) ? mdiContentCopy : mdiCheckBold"
+                  />
+                </BaseButtons>
                     <BaseDivider />
 
                     <BaseButtons class="w-full flex justify-center items-center">
@@ -223,7 +220,7 @@ onMounted(async () => {
           </div>
 
           <div class="w-full md:w-2/3">
-            <BuyAsset/>
+            <!-- <BuyAsset/> -->
             <CardBox
               :icon="mdiMonitorCellphone"
               :headerIcon="mdiReload"

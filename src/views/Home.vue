@@ -41,36 +41,36 @@ const clientBarItems = computed(() => mainStore.clients.slice(0, 3))
 
 const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
 
-const fillChartData = async () => {
-  try {
-    let avax = {
-      datasets: [
-        {
-          label: 'Avalanche',
-          borderColor: '#E84142',
-          pointBackgroundColor: '#E84142',
-          data: [],
-          tension: 0.5,
-        },
-      ],
-    }
-
-    const avaxPriceHistory = await web3Store.getMarketPrice('AVAX')
-    avaxPriceHistory.data.Data.Data.forEach((item, i) => {
-      avax.datasets[0].data.push({
-        x: new Date(item.time).toString(),
-        y: item.close
-      })
-    })
-    chartDataAvax.value = avax
-  } catch (e) {
-    console.log(e)
-  }
-}
+// const fillChartData = async () => {
+//   try {
+//     let avax = {
+//       datasets: [
+//         {
+//           label: 'Avalanche',
+//           borderColor: '#E84142',
+//           pointBackgroundColor: '#E84142',
+//           data: [],
+//           tension: 0.5,
+//         },
+//       ],
+//     }
+//
+//     const avaxPriceHistory = await web3Store.getMarketPrice('AVAX')
+//     avaxPriceHistory.data.Data.Data.forEach((item, i) => {
+//       avax.datasets[0].data.push({
+//         x: new Date(item.time).toString(),
+//         y: item.close
+//       })
+//     })
+//     chartDataAvax.value = avax
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }
 
 onMounted(async () => {
-  await web3Store.getTransactions()
-  fillChartData()
+  // await web3Store.getTransactions()
+  // fillChartData()
 })
 </script>
 
@@ -105,40 +105,34 @@ onMounted(async () => {
 
     <div class="flex flex-wrap justify-center items-center">
       <CardBox
-      title="Dashboard"
-      :icon="mdiQrcode"
-      :header-icon="(!copied) ? mdiContentCopy : mdiCheckBold"
-      class="w-full md:w-1/2 mb-6"
-      @header-icon-click="() => {
-        $copyText(web3Store.user.id)
-        copied = true
-        setTimeout(() => {
-          copied = false
-          }, 10000)
-          }"
-          >
-          <!-- TODO as Component -->
-          <div class="flex flex-wrap justify-center items-center">
+        title="Dashboard"
+        :icon="mdiQrcode"
+        :header-icon="(!copied) ? mdiContentCopy : mdiCheckBold"
+        class="w-full md:w-1/2 mb-6"
+        @header-icon-click=""
+      >
+        <!-- TODO as Component -->
+        <div class="flex flex-wrap justify-center items-center">
 
-            TLV
-            Treasury Balance
-            Backing
-            Price
+          TLV
+          Treasury Balance
+          Backing
+          Price
 
-          </div>
-        </CardBox>
+        </div>
+      </CardBox>
 
-        <CardBox
+      <CardBox
         :title="`Avalanche`"
         :icon="mdiFinance"
         :header-icon="mdiReload"
         class="w-full md:w-1/2 mb-6"
         @header-icon-click="fillChartData"
-        >
+      >
         <div v-if="chartDataAvax">
           <line-chart
-          :data="chartDataAvax"
-          class="h-96"
+            :data="chartDataAvax"
+            class="h-96"
           />
         </div>
       </CardBox>
